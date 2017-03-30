@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Chorbie extends Actor {
+public class Chorbi extends Actor {
 
 	//Attributes
 

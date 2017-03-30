@@ -35,11 +35,11 @@
 		<bean class="converters.ChirpToStringConverter" />
 		<bean class="converters.StringToChirpConverter" />
 		
-		<bean class="converters.ChorbieToStringConverter" />
-		<bean class="converters.StringToChorbieConverter" />
+		<bean class="converters.ChorbiToStringConverter" />
+		<bean class="converters.StringToChorbiConverter" />
 		
-		<bean class="converters.ChorbieLikeToStringConverter" />
-		<bean class="converters.StringToChorbieLikeConverter" />
+		<bean class="converters.ChorbiLikeToStringConverter" />
+		<bean class="converters.StringToChorbiLikeConverter" />
 		
 		<bean class="converters.CreditCardToStringConverter" />
 		<bean class="converters.StringToCreditCardConverter" />

@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Chorbie;
+import domain.Chorbi;
 
 @Repository
-public interface ChorbieRepository extends JpaRepository<Chorbie, Integer> {
+public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
-	@Query("select c from Chorbie c where c.userAccount.id = ?1")
-	Chorbie findByUserAccountId(int userAccountId);
+	@Query("select c from Chorbi c where c.userAccount.id = ?1")
+	Chorbi findByUserAccountId(int userAccountId);
 
 }

@@ -17,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class ChorbieLike extends DomainEntity {
+public class ChorbiLike extends DomainEntity {
 
 	// Attributes
 
@@ -48,29 +48,29 @@ public class ChorbieLike extends DomainEntity {
 
 	// Relationships 
 
-	private Chorbie	liker;
-	private Chorbie	liked;
+	private Chorbi	liker;
+	private Chorbi	liked;
 
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Chorbie getLiker() {
+	public Chorbi getLiker() {
 		return this.liker;
 	}
 
-	public void setLiker(final Chorbie liker) {
+	public void setLiker(final Chorbi liker) {
 		this.liker = liker;
 	}
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Chorbie getLiked() {
+	public Chorbi getLiked() {
 		return this.liked;
 	}
 
-	public void setLiked(final Chorbie liked) {
+	public void setLiked(final Chorbi liked) {
 		this.liked = liked;
 	}
 

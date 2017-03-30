@@ -5,14 +5,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Chorbie;
+import domain.Chorbi;
 
 @Component
 @Transactional
-public class ChorbieToStringConverter implements Converter<Chorbie, String> {
+public class ChorbiToStringConverter implements Converter<Chorbi, String> {
 
 	@Override
-	public String convert(final Chorbie chorbie) {
+	public String convert(final Chorbi chorbie) {
 		String res;
 
 		if (chorbie == null)

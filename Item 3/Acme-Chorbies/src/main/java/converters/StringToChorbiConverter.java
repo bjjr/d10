@@ -7,20 +7,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.ChorbieRepository;
-import domain.Chorbie;
+import repositories.ChorbiRepository;
+import domain.Chorbi;
 
 @Component
 @Transactional
-public class StringToChorbieConverter implements Converter<String, Chorbie> {
+public class StringToChorbiConverter implements Converter<String, Chorbi> {
 
 	@Autowired
-	ChorbieRepository	chorbieRepository;
+	ChorbiRepository	chorbieRepository;
 
 
 	@Override
-	public Chorbie convert(final String text) {
-		Chorbie res;
+	public Chorbi convert(final String text) {
+		Chorbi res;
 		int id;
 
 		try {
