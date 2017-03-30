@@ -15,7 +15,7 @@ public class SearchTemplate extends DomainEntity {
 	// Attributes 
 
 	private Integer		age;
-	private Boolean		genre;
+	private Boolean		gender;
 	private Coordinates	coordinates;
 	private String		keyword;
 
@@ -28,12 +28,12 @@ public class SearchTemplate extends DomainEntity {
 		this.age = age;
 	}
 
-	public Boolean getGenre() {
-		return this.genre;
+	public Boolean getGender() {
+		return this.gender;
 	}
 
-	public void setGenre(final Boolean genre) {
-		this.genre = genre;
+	public void setGender(final Boolean gender) {
+		this.gender = gender;
 	}
 
 	@Valid
