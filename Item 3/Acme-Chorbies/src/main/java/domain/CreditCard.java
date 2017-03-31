@@ -1,6 +1,8 @@
 
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -19,8 +21,7 @@ public class CreditCard extends DomainEntity {
 	private String	holder;
 	private String	brand;
 	private int		number;
-	private int		expirationMonth;
-	private int		expirationYear;
+	private Date	expirationDate;
 	private int		cvv;
 
 
@@ -53,21 +54,12 @@ public class CreditCard extends DomainEntity {
 		this.number = number;
 	}
 
-	@Range(min = 1, max = 12)
-	public int getExpirationMonth() {
-		return this.expirationMonth;
+	public Date getExpirationDate() {
+		return this.expirationDate;
 	}
 
-	public void setExpirationMonth(final int expirationMonth) {
-		this.expirationMonth = expirationMonth;
-	}
-
-	public int getExpirationYear() {
-		return this.expirationYear;
-	}
-
-	public void setExpirationYear(final int expirationYear) {
-		this.expirationYear = expirationYear;
+	public void setExpirationDate(final Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	@Range(min = 100, max = 999)
