@@ -20,6 +20,8 @@ public class Coordinates {
 	private String	city;
 
 
+	@NotBlank
+	@NotNull
 	public String getCountry() {
 		return this.country;
 	}

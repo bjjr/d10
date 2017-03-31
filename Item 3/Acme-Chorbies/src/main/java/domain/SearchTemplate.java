@@ -4,9 +4,10 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -18,6 +19,7 @@ public class SearchTemplate extends DomainEntity {
 	private Boolean		gender;
 	private Coordinates	coordinates;
 	private String		keyword;
+	private String		relationship;
 
 
 	public Integer getAge() {
@@ -53,20 +55,13 @@ public class SearchTemplate extends DomainEntity {
 		this.keyword = keyword;
 	}
 
-
-	//Relationships
-
-	private Relationship	relationship;
-
-
 	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Relationship getRelationship() {
+	@NotBlank
+	public String getRelationship() {
 		return this.relationship;
 	}
 
-	public void setRelationship(final Relationship relationship) {
+	public void setRelationship(final String relationship) {
 		this.relationship = relationship;
 	}
 

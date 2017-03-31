@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +29,7 @@ public class Chorbi extends Actor {
 	private boolean		gender;
 	private Coordinates	coordinates;
 	private boolean		banned;
+	private String		relationship;
 
 
 	@NotBlank
@@ -91,24 +91,22 @@ public class Chorbi extends Actor {
 		this.banned = banned;
 	}
 
-
-	//Relationships
-
-	private Relationship	relationship;
-	private CreditCard		creditCard;
-	private SearchTemplate	searchTemplate;
-
-
 	@NotNull
-	@Valid
-	@ManyToOne(optional = false)
-	public Relationship getRelationship() {
+	@NotBlank
+	public String getRelationship() {
 		return this.relationship;
 	}
 
-	public void setRelationship(final Relationship relationship) {
+	public void setRelationship(final String relationship) {
 		this.relationship = relationship;
 	}
+
+
+	// Relationships
+
+	private CreditCard		creditCard;
+	private SearchTemplate	searchTemplate;
+
 
 	@Valid
 	@OneToOne(optional = true)
