@@ -27,20 +27,17 @@ public class ChorbiService {
 	// Managed repository ---------------------------
 
 	@Autowired
-	private ChorbiRepository		chorbiRepository;
+	private ChorbiRepository	chorbiRepository;
 
 	// Supporting services --------------------------
 
 	@Autowired
-	private ActorService			actorService;
-
-	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private ActorService		actorService;
 
 	// Validator ------------------------------------
 
 	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 
 	// Constructor ----------------------------------

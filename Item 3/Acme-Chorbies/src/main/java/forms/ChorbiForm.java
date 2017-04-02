@@ -9,6 +9,7 @@ import security.Authority;
 import security.UserAccount;
 import domain.Chorbi;
 import domain.Coordinates;
+import domain.SearchTemplate;
 
 public class ChorbiForm {
 
@@ -76,6 +77,7 @@ public class ChorbiForm {
 		Chorbi res;
 		UserAccount ua;
 		Authority auth;
+		SearchTemplate st;
 		final List<Authority> auths;
 
 		res = new Chorbi();
@@ -88,6 +90,8 @@ public class ChorbiForm {
 
 		ua = new UserAccount();
 		ua.setAuthorities(auths);
+
+		st = new SearchTemplate();
 
 		res.setName(this.name);
 		res.setSurname(this.surname);
@@ -105,9 +109,11 @@ public class ChorbiForm {
 		ua.setPassword(this.password);
 
 		res.setUserAccount(ua);
+		res.setSearchTemplate(st);
 
 		return res;
 	}
+
 	public String getName() {
 		return this.name;
 	}
