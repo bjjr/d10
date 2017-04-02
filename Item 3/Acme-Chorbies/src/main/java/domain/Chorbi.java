@@ -26,7 +26,7 @@ public class Chorbi extends Actor {
 	private String		picture;
 	private String		description;
 	private Date		birthdate;
-	private boolean		gender;
+	private String		gender;
 	private Coordinates	coordinates;
 	private boolean		banned;
 	private String		relationship;
@@ -55,8 +55,8 @@ public class Chorbi extends Actor {
 
 	@Past
 	@NotNull
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	public Date getBirthdate() {
 		return this.birthdate;
 	}
@@ -65,11 +65,13 @@ public class Chorbi extends Actor {
 		this.birthdate = birthdate;
 	}
 
-	public boolean isGender() {
+	@NotNull
+	@NotBlank
+	public String getGender() {
 		return this.gender;
 	}
 
-	public void setGender(final boolean gender) {
+	public void setGender(final String gender) {
 		this.gender = gender;
 	}
 

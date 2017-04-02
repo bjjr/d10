@@ -60,7 +60,7 @@ public class Actor extends DomainEntity {
 
 	@NotBlank
 	@NotNull
-	@Pattern(regexp = "^(\\+\\d{1,4})?[\\(\\)-\\d\\sA-Z]+$")
+	@Pattern(regexp = "^(\\+\\d{1,4})?[\\(\\)\\-\\d\\sA-Z]+$")
 	public String getPhone() {
 		return this.phone;
 	}
