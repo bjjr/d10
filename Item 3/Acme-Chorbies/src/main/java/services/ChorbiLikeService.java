@@ -21,6 +21,14 @@ public class ChorbiLikeService {
 	@Autowired
 	private ChorbiLikeRepository	chorbiLikeRepository;
 
+	// Supporting services
+
+	@Autowired
+	private ActorService			actorService;
+
+	@Autowired
+	private ChorbiService			chorbiService;
+
 
 	//Constructors
 	public ChorbiLikeService() {
@@ -29,7 +37,7 @@ public class ChorbiLikeService {
 
 	// Simple CRUD methods
 	public ChorbiLike create(final Chorbi chorbi) {
-		Assert.isTrue(actorService.checkAuthority("CHORBI"));
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Assert.notNull(chorbi);
 		Assert.isTrue(chorbi.getId() != 0);
 
@@ -37,7 +45,7 @@ public class ChorbiLikeService {
 		Chorbi principal;
 		Date moment;
 
-		principal = chorbiService.findByPrincipal;
+		principal = this.chorbiService.findByPrincipal();
 		moment = new Date(System.currentTimeMillis() - 1000);
 
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
@@ -51,7 +59,7 @@ public class ChorbiLikeService {
 		return result;
 	}
 	public ChorbiLike save(final ChorbiLike chorbiLike) {
-		Assert.isTrue(actorService.checkAuthority("CHORBI"));
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Assert.notNull(chorbiLike);
 
 		ChorbiLike result;
@@ -82,7 +90,7 @@ public class ChorbiLikeService {
 	}
 
 	public void delete(final ChorbiLike chorbiLike) {
-		Assert.isTrue(actorService.checkAuthority("CHORBI"));
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Assert.notNull(chorbiLike);
 		Assert.isTrue(chorbiLike.getId() != 0);
 		Assert.isTrue(this.chorbiLikeRepository.exists(chorbiLike.getId()));
@@ -115,13 +123,13 @@ public class ChorbiLikeService {
 	}
 
 	public void cancelChorbiLike(final Chorbi chorbi) {
-		Assert.isTrue(actorService.checkAuthority("CHORBI"));
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Assert.notNull(chorbi);
 
 		Chorbi principal;
-		ChorbiLike chorbiLike;
+		ChorbiLike chorbiLike = null;
 
-		principal = chorbiService.findByPrincipal;
+		principal = this.chorbiService.findByPrincipal();
 
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
 			if (c.getLiked().equals(chorbi))
