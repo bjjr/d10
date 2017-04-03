@@ -21,9 +21,13 @@ public class ChorbiLikeService {
 	@Autowired
 	private ChorbiLikeRepository	chorbiLikeRepository;
 
-	//Services
+	// Supporting services
+
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private ChorbiService			chorbiService;
 
 
 	//Constructors
@@ -41,7 +45,7 @@ public class ChorbiLikeService {
 		Chorbi principal;
 		Date moment;
 
-		principal = chorbiService.findByPrincipal;
+		principal = this.chorbiService.findByPrincipal();
 		moment = new Date(System.currentTimeMillis() - 1000);
 
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
@@ -125,7 +129,8 @@ public class ChorbiLikeService {
 		Chorbi principal;
 		ChorbiLike chorbiLike;
 
-		principal = chorbiService.findByPrincipal;
+		principal = this.chorbiService.findByPrincipal();
+		chorbiLike = null;
 
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
 			if (c.getLiked().equals(chorbi))
