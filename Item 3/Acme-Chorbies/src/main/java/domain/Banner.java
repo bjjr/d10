@@ -14,8 +14,19 @@ public class Banner extends DomainEntity {
 
 	// Attributes 
 
+	private String	service;
 	private String	path;
 
+
+	@NotBlank
+	@NotNull
+	public String getService() {
+		return this.service;
+	}
+
+	public void setService(final String service) {
+		this.service = service;
+	}
 
 	@NotBlank
 	@NotNull

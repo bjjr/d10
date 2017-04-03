@@ -6,11 +6,14 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -20,7 +23,7 @@ public class CreditCard extends DomainEntity {
 
 	private String	holder;
 	private String	brand;
-	private int		number;
+	private String	number;
 	private Date	expirationDate;
 	private int		cvv;
 
@@ -45,15 +48,20 @@ public class CreditCard extends DomainEntity {
 		this.brand = brand;
 	}
 
+	@NotNull
+	@NotBlank
 	@CreditCardNumber
-	public int getNumber() {
+	public String getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(final int number) {
+	public void setNumber(final String number) {
 		this.number = number;
 	}
 
+	@NotNull
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	public Date getExpirationDate() {
 		return this.expirationDate;
 	}

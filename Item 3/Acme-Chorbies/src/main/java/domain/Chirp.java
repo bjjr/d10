@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -64,7 +63,6 @@ public class Chirp extends DomainEntity {
 		this.text = text;
 	}
 
-	@URL
 	@NotNull
 	@ElementCollection
 	public Collection<String> getAttachments() {
@@ -87,18 +85,30 @@ public class Chirp extends DomainEntity {
 
 	// Relationships
 
-	private Chorbi	chorbi;
+	private Chorbi	sender;
+	private Chorbi	recipient;
 
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Chorbi getChorbi() {
-		return this.chorbi;
+	public Chorbi getSender() {
+		return this.sender;
 	}
 
-	public void setChorbi(final Chorbi chorbi) {
-		this.chorbi = chorbi;
+	public void setSender(final Chorbi sender) {
+		this.sender = sender;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Chorbi getRecipient() {
+		return this.recipient;
+	}
+
+	public void setRecipient(final Chorbi recipient) {
+		this.recipient = recipient;
 	}
 
 }
