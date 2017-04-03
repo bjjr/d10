@@ -5,9 +5,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -16,7 +13,7 @@ public class SearchTemplate extends DomainEntity {
 	// Attributes 
 
 	private Integer		age;
-	private Boolean		gender;
+	private String		gender;
 	private Coordinates	coordinates;
 	private String		keyword;
 	private String		relationship;
@@ -30,11 +27,11 @@ public class SearchTemplate extends DomainEntity {
 		this.age = age;
 	}
 
-	public Boolean getGender() {
+	public String getGender() {
 		return this.gender;
 	}
 
-	public void setGender(final Boolean gender) {
+	public void setGender(final String gender) {
 		this.gender = gender;
 	}
 
@@ -55,8 +52,6 @@ public class SearchTemplate extends DomainEntity {
 		this.keyword = keyword;
 	}
 
-	@NotNull
-	@NotBlank
 	public String getRelationship() {
 		return this.relationship;
 	}
