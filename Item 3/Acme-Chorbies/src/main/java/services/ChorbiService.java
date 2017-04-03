@@ -139,7 +139,7 @@ public class ChorbiService {
 	 */
 
 	public Chorbi reconstruct(final Chorbi chorbi, final BindingResult binding) {
-		Assert.isTrue(this.actorService.checkPrincipal("CHORBI"));
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		final Chorbi res;
 		Chorbi principal;
 
