@@ -91,6 +91,15 @@ public class ChorbiLikeService {
 		return result;
 	}
 
+	public Collection<ChorbiLike> findAll() {
+		Collection<ChorbiLike> result;
+
+		result = this.chorbiLikeRepository.findAll();
+		Assert.notNull(result);
+
+		return result;
+	}
+
 	public void delete(final ChorbiLike chorbiLike) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Assert.notNull(chorbiLike);
@@ -134,12 +143,13 @@ public class ChorbiLikeService {
 		principal = this.chorbiService.findByPrincipal();
 		chorbiLike = null;
 
-		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
+		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId())) {
 			if (c.getLiked().equals(chorbi))
 				chorbiLike = c;
+			break;
+		}
 
 		this.delete(chorbiLike);
-
 	}
 
 }
