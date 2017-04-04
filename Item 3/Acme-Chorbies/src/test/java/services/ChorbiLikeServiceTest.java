@@ -40,7 +40,7 @@ public class ChorbiLikeServiceTest extends AbstractTest {
 	 * Use case: An actor who is authenticated as a chorbi must be able to:
 	 * Like another chorbi
 	 * Expected errors:
-	 * - A customer tries to like him/herself --> IllegalArgumentException
+	 * - A chorbi tries to like him/herself --> IllegalArgumentException
 	 * - A non registered user tries to like another chorbi --> IllegalArgumentException
 	 * - An administrator tries to like another chorbi --> IllegalArgumentException
 	 * - A chorbi tries to like another chorbi who have been already liked by him/her --> IllegalArgumentException
@@ -50,21 +50,51 @@ public class ChorbiLikeServiceTest extends AbstractTest {
 	public void createChorbiLikeDriver() {
 		final Object testingData[][] = {
 			{    // A chorbi cannot like him/herself
-				"customer2", 115, IllegalArgumentException.class
+				"chorbi1", 1013, IllegalArgumentException.class
 			}, { // A non registered user cannot like another chorbi
-				null, 115, IllegalArgumentException.class
+				null, 1013, IllegalArgumentException.class
 			}, { // An administrator cannot like another chorbi
-				"admin", 115, IllegalArgumentException.class
+				"admin", 1016, IllegalArgumentException.class
 			}, { // A chorbi cannot like another chorbi who have been already liked by him/her
-				"customer2", 116, IllegalArgumentException.class
+				"chorbi2", 1016, IllegalArgumentException.class
 			}, { // Successful test
-				"customer2", 117, null
+				"chorbi1", 1015, null
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.createChorbiLikeTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
+
+	/*
+	 * Use case: An actor who is authenticated as a chorbi must be able to:
+	 * Cancel a like
+	 * Expected errors:
+	 * - A non registered user tries to cancel some like --> IllegalArgumentException
+	 * - An administrator tries to cancel some like --> IllegalArgumentException
+	 * - A chorbi tries to cancel some like that not belongs to him/her --> IllegalArgumentException
+	 */
+
+	@Test
+	public void cancelChorbiLikeDriver() {
+		final Object testingData[][] = {
+			{ // A non registered user cannot cancel some like
+				null, 1013, IllegalArgumentException.class
+			}, { // An administrator cannot cancel some like
+				"admin", 1016, IllegalArgumentException.class
+			}, { // A chorbi cannot cancel some like that not belongs to him/her
+				"chorbi2", 1017, IllegalArgumentException.class
+			}, { // Successful test
+				"chorbi2", 1016, null
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.cancelChorbiLikeTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	// Ancillary methods ------------------------------------------------------
 
 	protected void createChorbiLikeTemplate(final String username, final int chorbiId, final Class<?> expected) {
 		Class<?> caught;
@@ -88,6 +118,37 @@ public class ChorbiLikeServiceTest extends AbstractTest {
 			chorbiLikes = this.chorbiLikeService.findChorbiLikesByLiker(principal.getId());
 
 			Assert.isTrue(chorbiLikes.contains(saved));
+
+			this.unauthenticate();
+
+		} catch (final Throwable th) {
+			caught = th.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void cancelChorbiLikeTemplate(final String username, final int chorbiId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			final Chorbi principal;
+			final Collection<ChorbiLike> chorbiLikes;
+			final Chorbi chorbi;
+
+			this.authenticate(username);
+
+			principal = this.chorbiService.findByPrincipal();
+			chorbi = this.chorbiService.findOne(chorbiId);
+
+			this.chorbiLikeService.cancelChorbiLike(chorbi);
+			this.chorbiLikeService.flush();
+			chorbiLikes = this.chorbiLikeService.findAll();
+
+			for (final ChorbiLike c : chorbiLikes)
+				Assert.isTrue(!(c.getLiker().equals(principal) && c.getLiked().equals(chorbi)));
 
 			this.unauthenticate();
 
