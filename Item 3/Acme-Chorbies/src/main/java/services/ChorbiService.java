@@ -18,6 +18,7 @@ import repositories.ChorbiRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
+import domain.SearchTemplate;
 import forms.ChorbiForm;
 
 @Service
@@ -27,17 +28,20 @@ public class ChorbiService {
 	// Managed repository ---------------------------
 
 	@Autowired
-	private ChorbiRepository	chorbiRepository;
+	private ChorbiRepository		chorbiRepository;
 
 	// Supporting services --------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
+
+	@Autowired
+	private SearchTemplateService	searchTemplateService;
 
 	// Validator ------------------------------------
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 
 	// Constructor ----------------------------------
@@ -60,12 +64,15 @@ public class ChorbiService {
 
 	public Chorbi save(final Chorbi chorbi) {
 		Chorbi res;
+		SearchTemplate savedSt;
 		String initialPasswd, encodedPasswd;
 
 		initialPasswd = chorbi.getUserAccount().getPassword();
 		encodedPasswd = this.hashCodePassword(initialPasswd);
 
 		chorbi.getUserAccount().setPassword(encodedPasswd);
+
+		savedSt = this.searchTemplateService.save(chorbi.getSearchTemplate());
 
 		res = this.chorbiRepository.save(chorbi);
 
