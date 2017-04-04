@@ -8,12 +8,18 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CreditCardRepository;
 import domain.Chorbi;
 import domain.CreditCard;
 
+@Service
+@Transactional
 public class CreditCardService {
 
 	@Autowired
@@ -21,6 +27,9 @@ public class CreditCardService {
 
 	@Autowired
 	private ChorbiService			chorbiService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	public CreditCard create() {
@@ -43,11 +52,11 @@ public class CreditCardService {
 		final CreditCard res;
 
 		chorbi = this.chorbiService.findByPrincipal();
-		Assert.notNull(chorbi);
-		res = this.creditCardRepository.save(creditCard);
+		Assert.notNull(chorbi, "You are not logged as a Chorbi");
 
+		res = this.creditCardRepository.save(creditCard);
 		if (creditCard.getId() == 0) {
-			chorbi.setCreditCard(creditCard);
+			chorbi.setCreditCard(res);
 			this.chorbiService.save(chorbi);
 		}
 
@@ -70,6 +79,24 @@ public class CreditCardService {
 		return res;
 	}
 
+	public CreditCard reconstruct(final CreditCard creditCard, final BindingResult bindingResult) {
+		final Chorbi chorbi;
+		final CreditCard res;
+
+		chorbi = this.chorbiService.findByPrincipal();
+		Assert.notNull(chorbi, "You are not logged as a Chorbi");
+
+		res = creditCard;
+
+		if (!this.isCreditCardDateValid(res))
+			bindingResult.rejectValue("creditCard", "Date is not valid. The expiration date must be at least one day after today.");
+		else if (!this.isCreditCardBrandValid(creditCard))
+			bindingResult.rejectValue("creditCard", "Brand name is not valid");
+
+		this.validator.validate(res, bindingResult);
+		return res;
+
+	}
 	// Other business methods -------------------------------
 
 	/**
@@ -91,30 +118,6 @@ public class CreditCardService {
 				return true;
 
 		return false;
-	}
-
-	/**
-	 * Given a credit card this method checks if its cvv
-	 * pass pass the Luhn’s algorithm
-	 * 
-	 * @param creditCard
-	 *            The credit card to be checked.
-	 * @return The result of the check.
-	 */
-	public boolean isCreditCardLuhnValid(final String ccNumber) {
-		int sum = 0;
-		boolean alternate = false;
-		for (int i = ccNumber.length() - 1; i >= 0; i--) {
-			int n = Integer.parseInt(ccNumber.substring(i, i + 1));
-			if (alternate) {
-				n *= 2;
-				if (n > 9)
-					n = (n % 10) + 1;
-			}
-			sum += n;
-			alternate = !alternate;
-		}
-		return (sum % 10 == 0);
 	}
 
 	/**
@@ -140,4 +143,30 @@ public class CreditCardService {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) >= 1;
 	}
 
+	public CreditCard findChorbiCreditCard() {
+		Chorbi chorbi;
+		CreditCard creditCard;
+
+		chorbi = this.chorbiService.findByPrincipal();
+		Assert.notNull(chorbi, "You are not logged as a Chorbi");
+
+		creditCard = this.creditCardRepository.findCreditCardByChorbi(chorbi.getId());
+		Assert.notNull(creditCard);
+
+		return creditCard;
+	}
+
+	public CreditCard findCreditCardToEdit(final int creditCardId) {
+		Chorbi chorbi;
+		CreditCard creditCard;
+
+		chorbi = this.chorbiService.findByPrincipal();
+		Assert.notNull(chorbi, "You are not logged as a Chorbi");
+
+		creditCard = this.findOne(creditCardId);
+		Assert.notNull(creditCard, "The credit card does not exist");
+		Assert.isTrue(this.findChorbiCreditCard().equals(creditCard), "This is not your credit card");
+
+		return creditCard;
+	}
 }

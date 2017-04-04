@@ -102,6 +102,10 @@ public class ChorbiService {
 		return res;
 	}
 
+	public void flush() {
+		this.chorbiRepository.flush();
+	}
+
 	// Other business methods -----------------------
 
 	public Chorbi findByPrincipal() {
