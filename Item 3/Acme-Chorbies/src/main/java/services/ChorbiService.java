@@ -18,7 +18,6 @@ import repositories.ChorbiRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SearchTemplate;
 import forms.ChorbiForm;
 
 @Service
@@ -114,11 +113,6 @@ public class ChorbiService {
 		res = this.findByUserAccount(userAccount);
 
 		return res;
-	}
-
-	public Collection<Chorbi> findChorbiesBySearchTemplate(final SearchTemplate searchTemplate) {
-		return this.chorbiRepository.findChorbiesBySearchTemplate(searchTemplate.getAge(), searchTemplate.getGender(), searchTemplate.getRelationship(), searchTemplate.getCoordinates().getCountry(), searchTemplate.getCoordinates().getState(),
-			searchTemplate.getCoordinates().getProvince(), searchTemplate.getCoordinates().getCity());
 	}
 
 	private Chorbi findByUserAccount(final UserAccount userAccount) {
