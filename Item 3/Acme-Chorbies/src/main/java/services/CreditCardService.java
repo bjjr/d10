@@ -54,6 +54,9 @@ public class CreditCardService {
 		chorbi = this.chorbiService.findByPrincipal();
 		Assert.notNull(chorbi, "You are not logged as a Chorbi");
 
+		Assert.isTrue(this.isCreditCardBrandValid(creditCard), "Brand name is not valid");
+		Assert.isTrue(this.isCreditCardDateValid(creditCard), "Date is not valid. The expiration date must be at least one day after today.");
+
 		res = this.creditCardRepository.save(creditCard);
 		if (creditCard.getId() == 0) {
 			chorbi.setCreditCard(res);
@@ -62,6 +65,7 @@ public class CreditCardService {
 
 		return res;
 	}
+
 	public void flush() {
 		this.creditCardRepository.flush();
 	}
