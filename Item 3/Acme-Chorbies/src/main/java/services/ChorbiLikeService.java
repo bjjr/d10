@@ -48,6 +48,8 @@ public class ChorbiLikeService {
 		principal = this.chorbiService.findByPrincipal();
 		moment = new Date(System.currentTimeMillis() - 1000);
 
+		Assert.isTrue(!principal.equals(chorbi));
+
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
 			Assert.isTrue(c.getLiked() != chorbi);
 
