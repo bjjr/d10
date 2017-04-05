@@ -1,10 +1,6 @@
 
 package services;
 
-import java.beans.PropertyEditor;
-import java.util.List;
-import java.util.Map;
-
 import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
@@ -12,15 +8,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.DataBinder;
 
 import utilities.AbstractTest;
 import domain.Chorbi;
@@ -83,194 +76,12 @@ public class ChorbiServiceTest extends AbstractTest {
 
 			ChorbiForm chorbiForm;
 			Chorbi reconstructed, saved;
+			DataBinder dataBinder;
 			BindingResult binding;
 
 			chorbiForm = new ChorbiForm();
-			binding = new BindingResult() {
-
-				@Override
-				public void setNestedPath(final String nestedPath) {
-				}
-
-				@Override
-				public void rejectValue(final String field, final String errorCode, final Object[] errorArgs, final String defaultMessage) {
-				}
-
-				@Override
-				public void rejectValue(final String field, final String errorCode, final String defaultMessage) {
-				}
-
-				@Override
-				public void rejectValue(final String field, final String errorCode) {
-				}
-
-				@Override
-				public void reject(final String errorCode, final Object[] errorArgs, final String defaultMessage) {
-				}
-
-				@Override
-				public void reject(final String errorCode, final String defaultMessage) {
-				}
-
-				@Override
-				public void reject(final String errorCode) {
-				}
-
-				@Override
-				public void pushNestedPath(final String subPath) {
-				}
-
-				@Override
-				public void popNestedPath() throws IllegalStateException {
-				}
-
-				@Override
-				public boolean hasGlobalErrors() {
-					return false;
-				}
-
-				@Override
-				public boolean hasFieldErrors(final String field) {
-					return false;
-				}
-
-				@Override
-				public boolean hasFieldErrors() {
-					return false;
-				}
-
-				@Override
-				public boolean hasErrors() {
-					return false;
-				}
-
-				@Override
-				public String getObjectName() {
-					return null;
-				}
-
-				@Override
-				public String getNestedPath() {
-					return null;
-				}
-
-				@Override
-				public List<ObjectError> getGlobalErrors() {
-					return null;
-				}
-
-				@Override
-				public int getGlobalErrorCount() {
-					return 0;
-				}
-
-				@Override
-				public ObjectError getGlobalError() {
-					return null;
-				}
-
-				@Override
-				public Object getFieldValue(final String field) {
-					return null;
-				}
-
-				@Override
-				public Class<?> getFieldType(final String field) {
-					return null;
-				}
-
-				@Override
-				public List<FieldError> getFieldErrors(final String field) {
-					return null;
-				}
-
-				@Override
-				public List<FieldError> getFieldErrors() {
-					return null;
-				}
-
-				@Override
-				public int getFieldErrorCount(final String field) {
-					return 0;
-				}
-
-				@Override
-				public int getFieldErrorCount() {
-					return 0;
-				}
-
-				@Override
-				public FieldError getFieldError(final String field) {
-					return null;
-				}
-
-				@Override
-				public FieldError getFieldError() {
-					return null;
-				}
-
-				@Override
-				public int getErrorCount() {
-					return 0;
-				}
-
-				@Override
-				public List<ObjectError> getAllErrors() {
-					return null;
-				}
-
-				@Override
-				public void addAllErrors(final Errors errors) {
-				}
-
-				@Override
-				public String[] resolveMessageCodes(final String errorCode, final String field) {
-					return null;
-				}
-
-				@Override
-				public String[] resolveMessageCodes(final String errorCode) {
-					return null;
-				}
-
-				@Override
-				public void recordSuppressedField(final String field) {
-				}
-
-				@Override
-				public Object getTarget() {
-					return null;
-				}
-
-				@Override
-				public String[] getSuppressedFields() {
-					return null;
-				}
-
-				@Override
-				public Object getRawFieldValue(final String field) {
-					return null;
-				}
-
-				@Override
-				public PropertyEditorRegistry getPropertyEditorRegistry() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getModel() {
-					return null;
-				}
-
-				@Override
-				public PropertyEditor findEditor(final String field, final Class<?> valueType) {
-					return null;
-				}
-
-				@Override
-				public void addError(final ObjectError error) {
-				}
-			};
+			dataBinder = new DataBinder(chorbiForm, "chorbiForm");
+			binding = dataBinder.getBindingResult();
 
 			chorbiForm.setName("test");
 			chorbiForm.setSurname("testSurname");
