@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -30,6 +31,7 @@ public class Banner extends DomainEntity {
 
 	@NotBlank
 	@NotNull
+	@URL
 	public String getPath() {
 		return this.path;
 	}
