@@ -153,14 +153,13 @@ public class ChorbiService {
 
 	/*
 	 * Reconstruct for pruned object. Used in profile edition.
+	 * A chorbi can only edit his/her email, phone, picture, description, and/or relationship.
 	 */
 
 	public Chorbi reconstruct(final Chorbi chorbi, final BindingResult binding) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		final Chorbi res;
 		Chorbi principal;
-
-		this.checkAge(chorbi.getBirthdate(), binding);
 
 		res = chorbi;
 		principal = this.findByPrincipal();
@@ -211,4 +210,5 @@ public class ChorbiService {
 		if (!passwd1.equals(passwd2))
 			binding.rejectValue("password", "chorbi.password.invalid");
 	}
+
 }
