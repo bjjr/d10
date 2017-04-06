@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,9 +94,9 @@ public class CreditCardService {
 		res = creditCard;
 
 		if (!this.isCreditCardDateValid(res))
-			bindingResult.rejectValue("creditCard", "Date is not valid. The expiration date must be at least one day after today.");
+			bindingResult.rejectValue("expiryDate", "creditcard.error.dates");
 		else if (!this.isCreditCardBrandValid(creditCard))
-			bindingResult.rejectValue("creditCard", "Brand name is not valid");
+			bindingResult.rejectValue("brand", "creditcard.error.brand");
 
 		this.validator.validate(res, bindingResult);
 		return res;
@@ -122,6 +123,20 @@ public class CreditCardService {
 				return true;
 
 		return false;
+	}
+
+	/**
+	 * Get the provided credit card's number masked to allow
+	 * display of it in views.
+	 * 
+	 * @param creditCard
+	 *            The credit card whose number must be masked
+	 * @return A string with the masked credit card's number
+	 */
+
+	public String getMaskedNumber(final CreditCard creditCard) {
+		Assert.notNull(creditCard);
+		return creditCard.getNumber().subSequence(0, 4) + StringUtils.repeat("*", 8) + creditCard.getNumber().substring(12);
 	}
 
 	/**
