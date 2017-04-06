@@ -18,6 +18,7 @@ import repositories.ChorbiRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
+import domain.SearchTemplate;
 import forms.ChorbiForm;
 
 @Service
@@ -27,17 +28,20 @@ public class ChorbiService {
 	// Managed repository ---------------------------
 
 	@Autowired
-	private ChorbiRepository	chorbiRepository;
+	private ChorbiRepository		chorbiRepository;
 
 	// Supporting services --------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
+
+	@Autowired
+	private SearchTemplateService	searchTemplateService;
 
 	// Validator ------------------------------------
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 
 	// Constructor ----------------------------------
@@ -60,12 +64,16 @@ public class ChorbiService {
 
 	public Chorbi save(final Chorbi chorbi) {
 		Chorbi res;
+		SearchTemplate savedSt;
 		String initialPasswd, encodedPasswd;
 
 		initialPasswd = chorbi.getUserAccount().getPassword();
 		encodedPasswd = this.hashCodePassword(initialPasswd);
 
 		chorbi.getUserAccount().setPassword(encodedPasswd);
+
+		savedSt = this.searchTemplateService.save(chorbi.getSearchTemplate());
+		chorbi.setSearchTemplate(savedSt);
 
 		res = this.chorbiRepository.save(chorbi);
 
@@ -102,6 +110,10 @@ public class ChorbiService {
 		return res;
 	}
 
+	public void flush() {
+		this.chorbiRepository.flush();
+	}
+
 	// Other business methods -----------------------
 
 	public Chorbi findByPrincipal() {
@@ -114,6 +126,11 @@ public class ChorbiService {
 
 		return res;
 	}
+
+	//	public Collection<Chorbi> findChorbiesBySearchTemplate(final SearchTemplate searchTemplate) {
+	//		return this.chorbiRepository.findChorbiesBySearchTemplate(searchTemplate.getAge(), searchTemplate.getGender(), searchTemplate.getRelationship(), searchTemplate.getCoordinates().getCountry(), searchTemplate.getCoordinates().getState(),
+	//			searchTemplate.getCoordinates().getProvince(), searchTemplate.getCoordinates().getCity());
+	//	}
 
 	private Chorbi findByUserAccount(final UserAccount userAccount) {
 		Chorbi res;
@@ -136,14 +153,13 @@ public class ChorbiService {
 
 	/*
 	 * Reconstruct for pruned object. Used in profile edition.
+	 * A chorbi can only edit his/her email, phone, picture, description, and/or relationship.
 	 */
 
 	public Chorbi reconstruct(final Chorbi chorbi, final BindingResult binding) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		final Chorbi res;
 		Chorbi principal;
-
-		this.checkAge(chorbi.getBirthdate(), binding);
 
 		res = chorbi;
 		principal = this.findByPrincipal();
@@ -193,5 +209,25 @@ public class ChorbiService {
 	private void checkPasswords(final String passwd1, final String passwd2, final BindingResult binding) {
 		if (!passwd1.equals(passwd2))
 			binding.rejectValue("password", "chorbi.password.invalid");
+	}
+
+	/**
+	 * Given a text this method masks sensible data in order to not display it to other users.
+	 * 
+	 * @param text
+	 *            The text to analyse
+	 * @return The same text with sensible data masked with asterisks
+	 */
+
+	public String maskSensibleData(final String text) {
+		final String phoneRegex = "(\\+\\d{1,4})?[\\(\\)\\-\\d\\sA-Z]+\\s";
+		final String emailRegex = "([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)";
+
+		String res;
+
+		res = text.replaceAll(phoneRegex, "*** ");
+		res = res.replaceAll(emailRegex, "***");
+
+		return res;
 	}
 }

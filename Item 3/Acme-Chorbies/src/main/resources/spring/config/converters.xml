@@ -44,9 +44,6 @@
 		<bean class="converters.CreditCardToStringConverter" />
 		<bean class="converters.StringToCreditCardConverter" />
 		
-		<bean class="converters.RelationshipToStringConverter" />
-		<bean class="converters.StringToRelationshipConverter" />
-		
 		<bean class="converters.SearchTemplateToStringConverter" />
 		<bean class="converters.StringToSearchTemplateConverter" />
 		
