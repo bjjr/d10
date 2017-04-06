@@ -77,6 +77,18 @@ public class ChorbiServiceTest extends AbstractTest {
 	//		for (int i = 0; i < testingData.length; i++)
 	//			this.profileEditionTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	//	}
+
+	@Test
+	public void maskSensibleDataTest() {
+		String text, maskedText, expected;
+
+		text = "You can contact me at +34 111 222 333 or someone@somewhere.com";
+		maskedText = this.chorbiService.maskSensibleData(text);
+		expected = "You can contact me at *** or ***";
+
+		Assert.isTrue(maskedText.equals(expected));
+	}
+
 	// Templates ------------------------------------
 
 	protected void registerTemplate(final String username, final String birthdate, final String passwd1, final String passwd2, final Class<?> expected) {

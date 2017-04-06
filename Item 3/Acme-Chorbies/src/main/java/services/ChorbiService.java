@@ -211,4 +211,23 @@ public class ChorbiService {
 			binding.rejectValue("password", "chorbi.password.invalid");
 	}
 
+	/**
+	 * Given a text this method masks sensible data in order to not display it to other users.
+	 * 
+	 * @param text
+	 *            The text to analyse
+	 * @return The same text with sensible data masked with asterisks
+	 */
+
+	public String maskSensibleData(final String text) {
+		final String phoneRegex = "(\\+\\d{1,4})?[\\(\\)\\-\\d\\sA-Z]+\\s";
+		final String emailRegex = "([\\w\\.]+)@([\\w\\.]+)\\.(\\w+)";
+
+		String res;
+
+		res = text.replaceAll(phoneRegex, "*** ");
+		res = res.replaceAll(emailRegex, "***");
+
+		return res;
+	}
 }
