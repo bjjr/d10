@@ -402,7 +402,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="VISA" />
 		<property name="number" value="869964971792152" />
-		<property name="expirationDate" value="02/01/2020" />
+		<property name="year" value="2020" />
+		<property name="month" value="01" />
 		<property name="cvv" value="301" />
 	</bean>
 	
@@ -410,7 +411,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="MASTERCARD" />
 		<property name="number" value="869958262282899" />
-		<property name="expirationDate" value="01/01/2019" />
+		<property name="year" value="2019" />
+		<property name="month" value="02" />
 		<property name="cvv" value="104" />
 	</bean>
 	
@@ -418,7 +420,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="DISCOVER" />
 		<property name="number" value="869910591110382" />
-		<property name="expirationDate" value="03/01/2019" />
+		<property name="year" value="2019" />
+		<property name="month" value="03" />
 		<property name="cvv" value="602" />
 	</bean>
 	
@@ -426,7 +429,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="DINNERS" />
 		<property name="number" value="869930337417727" />
-		<property name="expirationDate" value="11/01/2015" />
+		<property name="year" value="2015" />
+		<property name="month" value="11" />
 		<property name="cvv" value="496" />
 	</bean>
 	
@@ -434,7 +438,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="AMEX" />
 		<property name="number" value="869922049378552" />
-		<property name="expirationDate" value="05/01/2011" />
+		<property name="year" value="2011" />
+		<property name="month" value="05" />
 		<property name="cvv" value="890" />
 	</bean>
 	

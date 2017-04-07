@@ -17,8 +17,13 @@
 	<acme:display code="creditcard.holder" property="${creditCard.holder}"/>
 	<acme:display code="creditcard.brand" property="${creditCard.brand}"/>
 	<acme:display code="creditcard.number" property="${maskedNumber}"/>
-	<acme:display code="creditcard.expirationDate" property="${creditCard.expirationDate}"/>
 	<acme:display code="creditcard.cvv" property="${creditCard.cvv}"/>
+	
+	<spring:message code="creditcard.expirationDate" var="expirationDate" />
+	<h4><jstl:out value="${expirationDate}" /></h4>
+	
+	<acme:display code="creditcard.month" property="${creditCard.month}"/>
+	<acme:display code="creditcard.year" property="${creditCard.year}"/>
 
 	<acme:link code="creditcard.edit" href="creditCard/chorbi/edit.do?creditCardId=${creditCard.id}" />
 </jstl:if>
