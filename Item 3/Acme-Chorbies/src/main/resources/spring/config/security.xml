@@ -52,6 +52,11 @@
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" />
 		
 		<security:intercept-url pattern="/creditCard/chorbi/**" access="hasRole('CHORBI')" /> 
+
+		<security:intercept-url pattern="/chorbi/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/chorbi/edit.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chorbi/display.do" access="isAuthenticated()" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

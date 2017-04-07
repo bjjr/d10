@@ -38,7 +38,7 @@ public class BannerService {
 
 	public Banner save(final Banner banner) {
 		Assert.notNull(banner);
-		Assert.isTrue(this.actorService.checkAuthority("ADMIN"));
+		Assert.isTrue(this.actorService.checkAuthority("ADMIN"), "Only an admin must edit a banner");
 
 		Banner res;
 
