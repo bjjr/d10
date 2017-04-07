@@ -14,7 +14,7 @@
 	<form:hidden path="liker"/>
 	<form:hidden path="liked"/>
 	
-	<acme:textbox code="chorbiLike.comment" path="comment" />
+	<acme:textarea code="chorbiLike.comment" path="comment" />
 	<br />
 	
 	<acme:textbox code="chorbiLike.moment" path="moment" readonly="true"/>

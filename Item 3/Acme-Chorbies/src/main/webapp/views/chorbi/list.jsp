@@ -77,6 +77,23 @@
 	<security:authorize access="hasRole('CHORBI')">
 		<display:column>
 			<!-- COLUMN WITH LINKS TO LIKE OR DISLIKE -->
+			<jstl:choose>
+				<jstl:when test="${principal.equals(row)}">
+					<jstl:out value=""></jstl:out>
+				</jstl:when>
+				<jstl:otherwise>
+					<jstl:choose>
+					<jstl:when test="${liked.contains(row)}">
+					<acme:link href="chorbiLike/chorbi/cancel.do?chorbiId=${row.id}" code="chorbiLike.cancel.like"/>
+				    </jstl:when>
+				
+				    <jstl:otherwise>
+					<acme:link href="chorbiLike/chorbi/create.do?chorbiId=${row.id}" code="chorbiLike.create"/>
+				   </jstl:otherwise>
+				
+				</jstl:choose>
+				</jstl:otherwise>
+			</jstl:choose>
 		</display:column>
 	</security:authorize>
 
