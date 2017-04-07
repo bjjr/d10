@@ -44,7 +44,7 @@ public class ChorbiLikeChorbiController extends AbstractController {
 
 		chorbi = this.chorbiService.findOne(chorbiId);
 		chorbiLike = this.chorbiLikeService.create(chorbi);
-		result = new ModelAndView("chorbiLike/chorbi/create");
+		result = new ModelAndView("chorbiLike/create");
 		result.addObject("chorbiLike", chorbiLike);
 
 		return result;
@@ -55,15 +55,15 @@ public class ChorbiLikeChorbiController extends AbstractController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-			result = new ModelAndView("chorbiLike/chorbi/create");
+			result = new ModelAndView("chorbiLike/create");
 			result.addObject("chorbiLike", chorbiLike);
 		} else
 			try {
 				this.chorbiLikeService.save(chorbiLike);
-				result = new ModelAndView("redirect:../chorbi/list.do");
+				result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
 				result.addObject("messageStatus", "chorbiLike.commit.ok");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("chorbiLike/chorbi/create");
+				result = new ModelAndView("chorbiLike/create");
 				result.addObject("chorbiLike", chorbiLike);
 				result.addObject("messageStatus", "chorbiLike.commit.error");
 			}
@@ -73,7 +73,7 @@ public class ChorbiLikeChorbiController extends AbstractController {
 
 	// Cancelling -----------------------------------------------------------
 
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
 	public ModelAndView cancel(@RequestParam final int chorbiId) {
 		ModelAndView result;
 		Chorbi chorbi;
@@ -82,10 +82,10 @@ public class ChorbiLikeChorbiController extends AbstractController {
 
 		try {
 			this.chorbiLikeService.cancelChorbiLike(chorbi);
-			result = new ModelAndView("redirect:../chorbi/list.do");
+			result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
 			result.addObject("messageStatus", "chorbiLike.commit.ok");
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../chorbi/list.do");
+			result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
 			result.addObject("messageStatus", "chorbiLike.commit.error");
 		}
 

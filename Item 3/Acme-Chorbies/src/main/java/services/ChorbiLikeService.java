@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -150,6 +151,20 @@ public class ChorbiLikeService {
 		}
 
 		this.delete(chorbiLike);
+	}
+
+	public Collection<Chorbi> findLiked(final Chorbi principal) {
+		Collection<Chorbi> result;
+		Collection<ChorbiLike> cbl;
+
+		cbl = this.findChorbiLikesByLiker(principal.getId());
+		result = new ArrayList<Chorbi>();
+
+		for (final ChorbiLike c : cbl)
+			result.add(c.getLiked());
+
+		return result;
+
 	}
 
 }
