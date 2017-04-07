@@ -30,6 +30,7 @@
 		<value>/views/chirp/messages</value>
 		<value>/views/chorbi/messages</value>
 		<value>/views/searchTemplate/messages</value>
+		<value>/views/chorbiLike/messages</value>
 	</util:list>
 
 </beans>
