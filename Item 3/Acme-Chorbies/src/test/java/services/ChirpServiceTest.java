@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +47,63 @@ public class ChirpServiceTest extends AbstractTest {
 	public void sendChirpDriver() {
 		final Object testingData[][] = {
 			{    //An actor unauthenticated cannot send chirps
-				null, 975, IllegalArgumentException.class
+				null, 1015, IllegalArgumentException.class
 			}, { //An administrator cannot send chirps
-				"admin", 975, IllegalArgumentException.class
+				"admin", 1015, IllegalArgumentException.class
 			}, { // Successful test
-				"chorbi1", 975, null
+				"chorbi1", 1015, null
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.sendChirpTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 
+	}
+
+	/*
+	 * Use case: An actor who is authenticated as a chorbi must be able to:
+	 * Browse the list of chirps that he or she's got
+	 */
+
+	@Test
+	public void findChirpsReceivedTest() {
+		Collection<Chirp> chirpsReceived;
+		Boolean isSent;
+
+		this.authenticate("chorbi3");
+
+		chirpsReceived = this.chirpService.findChirpsReceived();
+		isSent = false;
+
+		this.unauthenticate();
+
+		for (final Chirp c : chirpsReceived)
+			if (!c.getCopy())
+				isSent = true;
+		Assert.isTrue(!isSent);
+	}
+
+	/*
+	 * Use case: An actor who is authenticated as a chorbi must be able to:
+	 * Browse the list of chirps that he or she's sent
+	 */
+
+	@Test
+	public void findChirpsSentTest() {
+		Collection<Chirp> chirpsSent;
+		Boolean isReceived;
+
+		this.authenticate("chorbi3");
+
+		chirpsSent = this.chirpService.findChirpsSent();
+		isReceived = false;
+
+		this.unauthenticate();
+
+		for (final Chirp c : chirpsSent)
+			if (c.getCopy())
+				isReceived = true;
+		Assert.isTrue(!isReceived);
 	}
 
 	/*
@@ -70,11 +118,11 @@ public class ChirpServiceTest extends AbstractTest {
 	public void replyChirpDriver() {
 		final Object testingData[][] = {
 			{    //A chorbi cannot reply chirps of other chorbies
-				"chorbi1", 998, IllegalArgumentException.class
+				"chorbi1", 1014, IllegalArgumentException.class
 			}, { //A chorbi cannot reply a chirp send by him/her
-				"chorbi2", 996, IllegalArgumentException.class
+				"chorbi2", 1035, IllegalArgumentException.class
 			}, { // Successful test
-				"chorbi2", 998, null
+				"chorbi2", 1038, null
 			}
 		};
 
@@ -95,11 +143,11 @@ public class ChirpServiceTest extends AbstractTest {
 	public void resendChirpDriver() {
 		final Object testingData[][] = {
 			{    //A chorbi cannot resend a chirp of other chorbi
-				"chorbi1", 998, 975, IllegalArgumentException.class
+				"chorbi1", 1038, 1018, IllegalArgumentException.class
 			}, { //A chorbi cannot resend a chirp received by him/her
-				"chorbi3", 996, 975, IllegalArgumentException.class
+				"chorbi3", 1036, 1018, IllegalArgumentException.class
 			}, { // Successful test
-				"chorbi2", 995, 976, null
+				"chorbi3", 1039, 1017, null
 			}
 		};
 
@@ -120,11 +168,11 @@ public class ChirpServiceTest extends AbstractTest {
 	public void deleteChirpDriver() {
 		final Object testingData[][] = {
 			{    //A chorbi cannot delete a chirp of other chorbies
-				"chorbi1", 997, IllegalArgumentException.class
+				"chorbi1", 1037, IllegalArgumentException.class
 			}, { //An administrator cannot delete a chirp
-				"admin", 997, IllegalArgumentException.class
+				"admin", 1037, IllegalArgumentException.class
 			}, { // Successful test
-				"chorbi3", 997, null
+				"chorbi3", 1037, null
 			}
 		};
 
@@ -174,12 +222,13 @@ public class ChirpServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
-			Chirp chirp, copy, result;
+			Chirp chirp, reply, copy, result;
 
 			this.authenticate(username);
 			chirp = this.chirpService.findOne(chirpId);
-			result = this.chirpService.reply(chirpId);
-			result.setText("Test reply");
+			reply = this.chirpService.reply(chirpId);
+			reply.setText("Test reply");
+			result = this.chirpService.send(reply);
 			copy = this.chirpService.saveCopy(result);
 			this.chirpService.flush();
 			this.unauthenticate();
@@ -202,10 +251,14 @@ public class ChirpServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
-			Chirp copy, result;
+			Chirp copy, resend, result;
+			Chorbi recipient;
 
 			this.authenticate(username);
-			result = this.chirpService.resend(chirpId, recipientId);
+			recipient = this.chorbiService.findOne(recipientId);
+			resend = this.chirpService.resend(chirpId);
+			resend.setRecipient(recipient);
+			result = this.chirpService.send(resend);
 			copy = this.chirpService.saveCopy(result);
 			this.chirpService.flush();
 
