@@ -191,51 +191,87 @@ public class ChirpService {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 
 		Chirp originalChirp;
-		Chirp newChirp;
-		final Chirp result;
+		Chirp result;
 
 		originalChirp = this.findOne(chirpId);
 		Assert.isTrue(originalChirp.getCopy(), "Cannot reply a chirp send by you");
 		Assert.isTrue(this.chorbiService.findByPrincipal().equals(originalChirp.getRecipient()), "Cannot reply a chirp of other chorbies");
 
-		newChirp = this.create(originalChirp.getSender().getId());
-		newChirp.setSubject("RE: " + originalChirp.getSubject());
-
-		result = this.send(newChirp);
+		result = this.create(originalChirp.getSender().getId());
+		if (!originalChirp.getSubject().contains("RE:"))
+			result.setSubject("RE: " + originalChirp.getSubject());
+		else
+			result.setSubject(originalChirp.getSubject());
 
 		return result;
 	}
 
-	public Chirp resend(final int chirpId, final int recipientId) {
+	public Chirp resend(final int chirpId) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 
 		Chirp originalChirp;
-		Chirp newChirp;
 		Chirp result;
+		Chorbi sender;
+		Date moment;
 
 		originalChirp = this.findOne(chirpId);
+		sender = this.chorbiService.findByPrincipal();
+		moment = new Date(System.currentTimeMillis() - 1000);
 		Assert.isTrue(!originalChirp.getCopy(), "Cannot resend a chirp received by you");
 
-		newChirp = this.create(recipientId);
-		newChirp.setAttachments(new ArrayList<>(originalChirp.getAttachments()));
-		newChirp.setSubject("FW: " + originalChirp.getSubject());
-		newChirp.setText(originalChirp.getText());
+		result = new Chirp();
+		result.setSender(sender);
+		result.setMoment(moment);
+		result.setCopy(false);
+		result.setAttachments(new ArrayList<>(originalChirp.getAttachments()));
+		if (!originalChirp.getSubject().contains("FW:"))
+			result.setSubject("FW: " + originalChirp.getSubject());
+		else
+			result.setSubject(originalChirp.getSubject());
+		result.setText(originalChirp.getText());
 
-		result = this.send(newChirp);
+		return result;
+	}
+
+	public String getNameRecipient(final Chorbi recipient) {
+		String result;
+
+		result = recipient.getName() + " " + recipient.getSurname() + " (" + recipient.getUserAccount().getUsername() + ")";
 
 		return result;
 	}
 
 	// TODO añadir métodos de queries
 
-	public Chirp reconstruct(final Chirp chirp, final BindingResult bindingResult) {
+	public Chirp reconstruct(final Chirp chirp, final BindingResult bindingResult, final int recipientId) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Chirp result;
-		Chorbi chorbi;
+		Chorbi sender;
+		Chorbi recipient;
 
 		result = chirp;
-		chorbi = this.chorbiService.findByPrincipal();
-		result.setSender(chorbi);
+		sender = this.chorbiService.findByPrincipal();
+		recipient = this.chorbiService.findOne(recipientId);
+		result.setCopy(false);
+		result.setSender(sender);
+		result.setRecipient(recipient);
+		result.setMoment(new Date(System.currentTimeMillis() - 1000));
+
+		this.validateURLs(result.getAttachments(), bindingResult);
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
+
+	public Chirp reconstructToResend(final Chirp chirp, final BindingResult bindingResult) {
+		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
+		Chirp result;
+		Chorbi sender;
+
+		result = chirp;
+		sender = this.chorbiService.findByPrincipal();
+		result.setCopy(false);
+		result.setSender(sender);
 		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		this.validateURLs(result.getAttachments(), bindingResult);
