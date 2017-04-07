@@ -29,9 +29,11 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CHORBI')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="chirp/chorbi/listSent.do"><spring:message code="master.page.chorbi.chirp.listSent" /></a></li>
+					<li><a href="chirp/chorbi/listReceived.do"><spring:message code="master.page.chorbi.chirp.listReceived" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
