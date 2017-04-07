@@ -59,6 +59,8 @@ public class ChorbiService {
 
 		res = new Chorbi();
 
+		res.setSearchTemplate(this.searchTemplateService.create());
+
 		return res;
 	}
 
@@ -132,11 +134,6 @@ public class ChorbiService {
 
 		return res;
 	}
-
-	//	public Collection<Chorbi> findChorbiesBySearchTemplate(final SearchTemplate searchTemplate) {
-	//		return this.chorbiRepository.findChorbiesBySearchTemplate(searchTemplate.getAge(), searchTemplate.getGender(), searchTemplate.getRelationship(), searchTemplate.getCoordinates().getCountry(), searchTemplate.getCoordinates().getState(),
-	//			searchTemplate.getCoordinates().getProvince(), searchTemplate.getCoordinates().getCity());
-	//	}
 
 	private Chorbi findByUserAccount(final UserAccount userAccount) {
 		Chorbi res;
