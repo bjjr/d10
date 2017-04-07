@@ -63,17 +63,23 @@ public class ChorbiService {
 	}
 
 	public Chorbi save(final Chorbi chorbi) {
-		Chorbi res;
+		Chorbi res, authChorbi;
 		SearchTemplate savedSt;
 		String initialPasswd, encodedPasswd;
 
-		initialPasswd = chorbi.getUserAccount().getPassword();
-		encodedPasswd = this.hashCodePassword(initialPasswd);
+		// If Chorbi already exists we don't need to re-hash the password and add the search template
+		if (chorbi.getId() != 0) {
+			authChorbi = this.findByPrincipal();
+			Assert.notNull(authChorbi);
+		} else {
+			initialPasswd = chorbi.getUserAccount().getPassword();
+			encodedPasswd = this.hashCodePassword(initialPasswd);
 
-		chorbi.getUserAccount().setPassword(encodedPasswd);
+			chorbi.getUserAccount().setPassword(encodedPasswd);
 
-		savedSt = this.searchTemplateService.save(chorbi.getSearchTemplate());
-		chorbi.setSearchTemplate(savedSt);
+			savedSt = this.searchTemplateService.save(chorbi.getSearchTemplate());
+			chorbi.setSearchTemplate(savedSt);
+		}
 
 		res = this.chorbiRepository.save(chorbi);
 
