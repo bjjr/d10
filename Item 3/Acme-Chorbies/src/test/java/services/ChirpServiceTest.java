@@ -222,12 +222,13 @@ public class ChirpServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
-			Chirp chirp, copy, result;
+			Chirp chirp, reply, copy, result;
 
 			this.authenticate(username);
 			chirp = this.chirpService.findOne(chirpId);
-			result = this.chirpService.reply(chirpId);
-			result.setText("Test reply");
+			reply = this.chirpService.reply(chirpId);
+			reply.setText("Test reply");
+			result = this.chirpService.send(reply);
 			copy = this.chirpService.saveCopy(result);
 			this.chirpService.flush();
 			this.unauthenticate();
@@ -250,10 +251,14 @@ public class ChirpServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
-			Chirp copy, result;
+			Chirp copy, resend, result;
+			Chorbi recipient;
 
 			this.authenticate(username);
-			result = this.chirpService.resend(chirpId, recipientId);
+			recipient = this.chorbiService.findOne(recipientId);
+			resend = this.chirpService.resend(chirpId);
+			resend.setRecipient(recipient);
+			result = this.chirpService.send(resend);
 			copy = this.chirpService.saveCopy(result);
 			this.chirpService.flush();
 
