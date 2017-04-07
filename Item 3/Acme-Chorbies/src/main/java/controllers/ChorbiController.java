@@ -35,8 +35,11 @@ public class ChorbiController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView res;
 		Collection<Chorbi> chorbies;
+		Chorbi principal;
 
 		chorbies = this.chorbiService.findAll();
+		principal = this.chorbiService.findByPrincipal();
+		chorbies.remove(principal);
 		res = new ModelAndView("chorbi/list");
 
 		res.addObject("chorbies", chorbies);
