@@ -48,6 +48,8 @@ public class ChorbiLikeService {
 		principal = this.chorbiService.findByPrincipal();
 		moment = new Date(System.currentTimeMillis() - 1000);
 
+		Assert.isTrue(!principal.equals(chorbi));
+
 		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
 			Assert.isTrue(c.getLiked() != chorbi);
 
@@ -84,6 +86,15 @@ public class ChorbiLikeService {
 		ChorbiLike result;
 
 		result = this.chorbiLikeRepository.findOne(id);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<ChorbiLike> findAll() {
+		Collection<ChorbiLike> result;
+
+		result = this.chorbiLikeRepository.findAll();
 		Assert.notNull(result);
 
 		return result;
@@ -127,16 +138,18 @@ public class ChorbiLikeService {
 		Assert.notNull(chorbi);
 
 		Chorbi principal;
-		ChorbiLike chorbiLike = null;
+		ChorbiLike chorbiLike;
 
 		principal = this.chorbiService.findByPrincipal();
+		chorbiLike = null;
 
-		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId()))
+		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId())) {
 			if (c.getLiked().equals(chorbi))
 				chorbiLike = c;
+			break;
+		}
 
 		this.delete(chorbiLike);
-
 	}
 
 }

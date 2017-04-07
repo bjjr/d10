@@ -15,26 +15,31 @@ public class ChorbiForm {
 
 	// Chorbi attributes
 
-	private String		name;
-	private String		surname;
-	private String		email;
-	private String		phone;
-	private String		picture;
-	private String		description;
-	private Date		birthdate;
-	private String		gender;
-	private Coordinates	coordinates;
-	private boolean		banned;
-	private String		relationship;
+	private String	name;
+	private String	surname;
+	private String	email;
+	private String	phone;
+	private String	picture;
+	private String	description;
+	private Date	birthdate;
+	private String	gender;
+	private String	relationship;
+
+	// Coordinates attributes
+
+	private String	country;
+	private String	state;
+	private String	province;
+	private String	city;
 
 	// UserAccount attributes
 
-	private String		username;
-	private String		password;
+	private String	username;
+	private String	password;
 
 	// Form attributes
 
-	private String		passwdConfirmation;
+	private String	passwdConfirmation;
 
 
 	// Constructors
@@ -59,8 +64,10 @@ public class ChorbiForm {
 		this.description = chorbi.getDescription();
 		this.birthdate = chorbi.getBirthdate();
 		this.gender = chorbi.getGender();
-		this.coordinates = chorbi.getCoordinates();
-		this.banned = chorbi.isBanned();
+		this.country = chorbi.getCoordinates().getCountry();
+		this.state = chorbi.getCoordinates().getState();
+		this.province = chorbi.getCoordinates().getProvince();
+		this.city = chorbi.getCoordinates().getCity();
 		this.relationship = chorbi.getRelationship();
 		this.username = chorbi.getUserAccount().getUsername();
 		this.password = "";
@@ -79,8 +86,11 @@ public class ChorbiForm {
 		Authority auth;
 		SearchTemplate st;
 		final List<Authority> auths;
+		Coordinates coordinates;
 
 		res = new Chorbi();
+
+		coordinates = new Coordinates();
 
 		auth = new Authority();
 		auths = new ArrayList<>();
@@ -101,9 +111,15 @@ public class ChorbiForm {
 		res.setDescription(this.description);
 		res.setBirthdate(this.birthdate);
 		res.setGender(this.gender);
-		res.setCoordinates(this.coordinates);
-		res.setBanned(this.banned);
+		res.setBanned(false);
 		res.setRelationship(this.relationship);
+
+		coordinates.setCountry(this.country);
+		coordinates.setState(this.state);
+		coordinates.setProvince(this.province);
+		coordinates.setCity(this.city);
+
+		res.setCoordinates(coordinates);
 
 		ua.setUsername(this.username);
 		ua.setPassword(this.password);
@@ -178,28 +194,44 @@ public class ChorbiForm {
 		this.gender = gender;
 	}
 
-	public Coordinates getCoordinates() {
-		return this.coordinates;
-	}
-
-	public void setCoordinates(final Coordinates coordinates) {
-		this.coordinates = coordinates;
-	}
-
-	public boolean isBanned() {
-		return this.banned;
-	}
-
-	public void setBanned(final boolean banned) {
-		this.banned = banned;
-	}
-
 	public String getRelationship() {
 		return this.relationship;
 	}
 
 	public void setRelationship(final String relationship) {
 		this.relationship = relationship;
+	}
+
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(final String country) {
+		this.country = country;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+
+	public void setState(final String state) {
+		this.state = state;
+	}
+
+	public String getProvince() {
+		return this.province;
+	}
+
+	public void setProvince(final String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(final String city) {
+		this.city = city;
 	}
 
 	public String getUsername() {

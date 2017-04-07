@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SearchTemplateRepository;
-import domain.Chorbi;
 import domain.SearchTemplate;
 
 @Service
@@ -68,14 +67,14 @@ public class SearchTemplateService {
 	// Other business methods
 
 	//TODO: hacer cacheable
-	public Collection<Chorbi> search(final SearchTemplate searchTemplate) {
-
-		final Chorbi loggedChorbi = this.chorbiService.findByPrincipal();
-		Assert.notNull(loggedChorbi);
-
-		Assert.notNull(loggedChorbi.getCreditCard(), "SearchTemplateService.search: You need a valid creditcard in order to perform a search");
-
-		return this.chorbiService.findChorbiesBySearchTemplate(searchTemplate);
-	}
+	//	public Collection<Chorbi> search(final SearchTemplate searchTemplate) {
+	//
+	//		final Chorbi loggedChorbi = this.chorbiService.findByPrincipal();
+	//		Assert.notNull(loggedChorbi);
+	//
+	//		Assert.notNull(loggedChorbi.getCreditCard(), "SearchTemplateService.search: You need a valid creditcard in order to perform a search");
+	//
+	//		return this.chorbiService.findChorbiesBySearchTemplate(searchTemplate);
+	//	}
 
 }
