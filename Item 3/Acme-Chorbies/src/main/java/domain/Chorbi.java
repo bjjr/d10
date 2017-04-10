@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -28,7 +29,6 @@ public class Chorbi extends Actor {
 	private Date		birthdate;
 	private String		gender;
 	private Coordinates	coordinates;
-	private boolean		banned;
 	private String		relationship;
 
 
@@ -45,6 +45,7 @@ public class Chorbi extends Actor {
 
 	@NotBlank
 	@NotNull
+	@Size(min = 1, max = 1500)
 	public String getDescription() {
 		return this.description;
 	}
@@ -83,14 +84,6 @@ public class Chorbi extends Actor {
 
 	public void setCoordinates(final Coordinates coordinates) {
 		this.coordinates = coordinates;
-	}
-
-	public boolean isBanned() {
-		return this.banned;
-	}
-
-	public void setBanned(final boolean banned) {
-		this.banned = banned;
 	}
 
 	@NotNull

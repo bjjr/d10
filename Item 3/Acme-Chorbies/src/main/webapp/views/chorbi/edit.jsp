@@ -9,9 +9,6 @@
 
 <form:form action="${action}" modelAttribute="${modelAttribute}" >
 	
-	<form:hidden path="id"/>
-	<form:hidden path="version"/>
-	
 	<spring:message code="chorbi.man" var="cMan" />
 	<spring:message code="chorbi.woman" var="cWoman" />
 	<spring:message code="chorbi.love" var="cLove" />
@@ -20,9 +17,13 @@
 	
 	<jstl:if test="${isEdit}">
 		<acme:textbox code="actor.email" path="email" />
+		<br/>
 		<acme:textbox code="actor.phone" path="phone" />
+		<br/>
 		<acme:textbox code="chorbi.picture" path="picture" />
+		<br/>
 		<acme:textarea code="chorbi.description" path="description"/>
+		<br/>
 	</jstl:if>
 	
 	<div>
@@ -37,15 +38,23 @@
 		</form:select>
 		<form:errors path="relationship" cssClass="error" />
 	</div>
+	<br/>
 	
 	<jstl:if test="${!isEdit}">
 		<acme:textbox code="actor.name" path="name"/>
+		<br/>
 		<acme:textbox code="actor.surname" path="surname"/>
+		<br/>
 		<acme:textbox code="actor.email" path="email"/>
+		<br/>
 		<acme:textbox code="actor.phone" path="phone"/>
+		<br/>
 		<acme:textbox code="chorbi.picture" path="picture"/>
-		<acme:textarea code="chorbi.description" path="name"/>
+		<br/>
+		<acme:textarea code="chorbi.description" path="description"/>
+		<br/>
 		<acme:datebox code="chorbi.birthdate" path="birthdate"/>
+		<br/>
 		<div>
 			<form:label path="gender">
 				<spring:message code="chorbi.gender" />
@@ -57,14 +66,20 @@
 			</form:select>
 			<form:errors path="gender" cssClass="error" />
 		</div>
-		<acme:textbox code="coordinates.country" path="country"/>
-		<acme:textbox code="coordinates.state" path="state"/>
-		<acme:textbox code="coordinates.province" path="province"/>
-		<acme:textbox code="coordinates.city" path="city"/>
+		<br/>
+		<acme:textbox code="coordinates.country" path="coordinates.country"/>
+		<br/>
+		<acme:textbox code="coordinates.state" path="coordinates.state"/>
+		<br/>
+		<acme:textbox code="coordinates.province" path="coordinates.province"/>
+		<br/>
+		<acme:textbox code="coordinates.city" path="coordinates.city"/>
 		<br />
-		<acme:textbox code="chorbi.username" path="username"/>
-		<acme:textbox code="chorbi.password" path="password"/>
-		<acme:textbox code="chorbi.passwdConf" path="passwdConfirmation"/>
+		<acme:textbox code="chorbi.username" path="userAccount.username"/>
+		<br/>
+		<acme:password code="chorbi.password" path="userAccount.password"/>
+		<br/>
+		<acme:password code="chorbi.passwdConf" path="passwdConfirmation"/>
 	</jstl:if>
 
 	<acme:submit name="save" code="misc.save"/>		
