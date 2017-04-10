@@ -60,4 +60,9 @@ public class SearchTemplate extends DomainEntity {
 		this.relationship = relationship;
 	}
 
+	@Override
+	public String toString() {
+		return "SearchTemplate [age=" + this.age + ", gender=" + this.gender + ", coordinates=" + this.coordinates + ", keyword=" + this.keyword + ", relationship=" + this.relationship + "]";
+	}
+
 }
