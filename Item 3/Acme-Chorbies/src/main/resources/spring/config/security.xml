@@ -57,6 +57,8 @@
 		<security:intercept-url pattern="/chorbi/edit.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/chorbi/display.do" access="isAuthenticated()" />
+		
+		<security:intercept-url pattern="/dashboard/administrator/dashboard.do" access="hasRole('ADMIN')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
