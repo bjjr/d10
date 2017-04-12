@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -165,6 +166,40 @@ public class ChorbiLikeService {
 
 		return result;
 
+	}
+
+	public Double findAvgLikesPerChorbi() {
+		Double result;
+
+		result = this.chorbiLikeRepository.findAvgLikesPerChorbi();
+
+		return result;
+	}
+
+	public Long findMaxLikesPerChorbi() {
+		Long result;
+		List<Long> maxLikes;
+
+		result = 0L;
+		maxLikes = (List<Long>) this.chorbiLikeRepository.findMaxLikesPerChorbi();
+
+		if (!maxLikes.isEmpty())
+			result = maxLikes.get(0);
+
+		return result;
+	}
+
+	public Long findMinLikesPerChorbi() {
+		Long result;
+		List<Long> minLikes;
+
+		result = 0L;
+		minLikes = (List<Long>) this.chorbiLikeRepository.findMinLikesPerChorbi();
+
+		if (!minLikes.isEmpty())
+			result = minLikes.get(0);
+
+		return result;
 	}
 
 }

@@ -230,4 +230,84 @@ public class ChorbiService {
 
 		return res;
 	}
+
+	public Double findAvgAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findAvgAgeChorbies();
+
+		return result;
+	}
+
+	public Double findMaxAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findMaxAgeChorbies();
+
+		return result;
+	}
+
+	public Double findMinAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findMinAgeChorbies();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesNoCCInvCC() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesNoCCInvCC();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchAct() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchAct();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchFriend() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchFriend();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchLove() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchLove();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesSortNumLikes() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesSortNumLikes();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesMoreChirpsRec() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesMoreChirpsSend();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesMoreChirpsSend() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesMoreChirpsSend();
+
+		return result;
+	}
 }

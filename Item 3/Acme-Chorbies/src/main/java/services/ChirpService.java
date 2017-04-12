@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern.Flag;
@@ -58,21 +59,21 @@ public class ChirpService {
 
 		Chirp result;
 		final Date moment;
-		final Chorbi sender;
-		final Chorbi recipient;
+		final Chorbi chirper;
+		final Chorbi chirped;
 		Collection<String> attachments;
 
 		result = new Chirp();
 		attachments = new ArrayList<String>();
-		sender = this.chorbiService.findByPrincipal();
-		recipient = this.chorbiService.findOne(recipientId);
-		Assert.isTrue(!sender.equals(recipient), "Cannot send a chirp to you");
+		chirper = this.chorbiService.findByPrincipal();
+		chirped = this.chorbiService.findOne(recipientId);
+		Assert.isTrue(!chirper.equals(chirped), "Cannot send a chirp to you");
 		moment = new Date(System.currentTimeMillis() - 1000);
 		result.setAttachments(attachments);
 		result.setCopy(false);
 		result.setMoment(moment);
-		result.setRecipient(recipient);
-		result.setSender(sender);
+		result.setChirped(chirped);
+		result.setChirper(chirper);
 		result.setSubject("");
 		result.setText("");
 
@@ -155,8 +156,8 @@ public class ChirpService {
 		aux.setCopy(true);
 		aux.setAttachments(new ArrayList<>(originalChirp.getAttachments()));
 		aux.setMoment(originalChirp.getMoment());
-		aux.setRecipient(originalChirp.getRecipient());
-		aux.setSender(originalChirp.getSender());
+		aux.setChirped(originalChirp.getChirped());
+		aux.setChirper(originalChirp.getChirper());
 		aux.setSubject(originalChirp.getSubject());
 		aux.setText(originalChirp.getText());
 		result = this.chirpRepository.save(aux);
@@ -176,7 +177,7 @@ public class ChirpService {
 
 		principal = this.chorbiService.findByPrincipal();
 
-		Assert.isTrue((chirp.getSender().equals(principal) && chirp.getCopy() == false) || (chirp.getRecipient().equals(principal) && chirp.getCopy() == true));
+		Assert.isTrue((chirp.getChirper().equals(principal) && chirp.getCopy() == false) || (chirp.getChirped().equals(principal) && chirp.getCopy() == true));
 
 		this.chirpRepository.delete(chirp);
 	}
@@ -196,9 +197,9 @@ public class ChirpService {
 
 		originalChirp = this.findOne(chirpId);
 		Assert.isTrue(originalChirp.getCopy(), "Cannot reply a chirp send by you");
-		Assert.isTrue(this.chorbiService.findByPrincipal().equals(originalChirp.getRecipient()), "Cannot reply a chirp of other chorbies");
+		Assert.isTrue(this.chorbiService.findByPrincipal().equals(originalChirp.getChirped()), "Cannot reply a chirp of other chorbies");
 
-		newChirp = this.create(originalChirp.getSender().getId());
+		newChirp = this.create(originalChirp.getChirper().getId());
 		newChirp.setSubject("RE: " + originalChirp.getSubject());
 
 		result = this.send(newChirp);
@@ -226,8 +227,6 @@ public class ChirpService {
 		return result;
 	}
 
-	// TODO añadir métodos de queries
-
 	public Chirp reconstruct(final Chirp chirp, final BindingResult bindingResult) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		Chirp result;
@@ -235,7 +234,7 @@ public class ChirpService {
 
 		result = chirp;
 		chorbi = this.chorbiService.findByPrincipal();
-		result.setSender(chorbi);
+		result.setChirper(chorbi);
 		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		this.validateURLs(result.getAttachments(), bindingResult);
@@ -302,6 +301,78 @@ public class ChirpService {
 				binding.rejectValue("attachments", "org.hibernate.validator.constraints.URL.message");
 				break;
 			}
+	}
+
+	public Double findAvgChirpsRecPerChorbi() {
+		Double result;
+
+		result = this.chirpRepository.findAvgChirpsRecPerChorbi();
+
+		return result;
+	}
+
+	public Long findMaxChirpsRecPerChorbi() {
+		Long result;
+		List<Long> maxChirps;
+
+		result = 0L;
+		maxChirps = (List<Long>) this.chirpRepository.findMaxChirpsRecPerChorbi();
+
+		if (!maxChirps.isEmpty())
+			result = maxChirps.get(0);
+
+		return result;
+
+	}
+
+	public Long findMinChirpsRecPerChorbi() {
+		Long result;
+		List<Long> minChirps;
+
+		result = 0L;
+		minChirps = (List<Long>) this.chirpRepository.findMinChirpsRecPerChorbi();
+
+		if (!minChirps.isEmpty())
+			result = minChirps.get(0);
+
+		return result;
+
+	}
+
+	public Double findAvgChirpsSendPerChorbi() {
+		Double result;
+
+		result = this.chirpRepository.findAvgChirpsSendPerChorbi();
+
+		return result;
+	}
+
+	public Long findMaxChirpsSendPerChorbi() {
+		Long result;
+		List<Long> maxChirps;
+
+		result = 0L;
+		maxChirps = (List<Long>) this.chirpRepository.findMaxChirpsSendPerChorbi();
+
+		if (!maxChirps.isEmpty())
+			result = maxChirps.get(0);
+
+		return result;
+
+	}
+
+	public Long findMinChirpsSendPerChorbi() {
+		Long result;
+		List<Long> minChirps;
+
+		result = 0L;
+		minChirps = (List<Long>) this.chirpRepository.findMinChirpsSendPerChorbi();
+
+		if (!minChirps.isEmpty())
+			result = minChirps.get(0);
+
+		return result;
+
 	}
 
 }
