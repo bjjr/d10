@@ -10,40 +10,34 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<h2><spring:message code="administrator.listChorbiesCC" /></h2>
+<h2><spring:message code="administrator.listChorbiesCountry" /></h2>
 
-<display:table pagesize="5" class="displaytag" name="listChorbiesCC"
-requestURI="administrator/dashboard.do" id="row">
+<h2><spring:message code="administrator.listChorbiesCity" /></h2>
 
-	<acme:column code="actor.surname" property="${row.surname}"/>
+<h2><spring:message code="administrator.avgAC" /></h2>
+<jstl:out value="${avgAC}"></jstl:out>
 
-</display:table>
+<h2><spring:message code="administrator.maxAC" /></h2>
+<jstl:out value="${maxAC}"></jstl:out>
 
-<h2><spring:message code="administrator.avgOC" /></h2>
-<jstl:out value="${avgOC}"></jstl:out>
+<h2><spring:message code="administrator.minAC" /></h2>
+<jstl:out value="${minAC}"></jstl:out>
 
-<h2><spring:message code="administrator.avgRC" /></h2>
-<jstl:out value="${avgRC}"></jstl:out>
+<h2><spring:message code="administrator.ratioChorbiesNoCCInvCC" /></h2>
+<jstl:out value="${ratioChorbiesNoCCInvCC}"></jstl:out>
 
-<h2><spring:message code="administrator.avgAO" /></h2>
-<jstl:out value="${avgAO}"></jstl:out>
+<h2><spring:message code="administrator.ratioChorbiesSearchAct" /></h2>
+<jstl:out value="${ratioChorbiesSearchAct}"></jstl:out>
 
-<h2><spring:message code="administrator.avgAR" /></h2>
-<jstl:out value="${avgAR}"></jstl:out>
+<h2><spring:message code="administrator.ratioChorbiesSearchFriend" /></h2>
+<jstl:out value="${ratioChorbiesSearchFriend}"></jstl:out>
 
-<h2><spring:message code="administrator.customerMAA" /></h2>
+<h2><spring:message code="administrator.ratioChorbiesSearchLove" /></h2>
+<jstl:out value="${ratioChorbiesSearchLove}"></jstl:out>
 
-<display:table pagesize="5" class="displaytag" name="customerMAA"
-requestURI="administrator/dashboard.do" id="row">
+<h2><spring:message code="administrator.chorbiesOrderByCL" /></h2>
 
-	<acme:column code="actor.name" property="${row.name}"/>
-	<acme:column code="actor.surname" property="${row.surname}"/>
-
-</display:table>
-
-<h2><spring:message code="administrator.customerMAD" /></h2>
-
-<display:table pagesize="5" class="displaytag" name="customerMAD"
+<display:table pagesize="5" class="displaytag" name="chorbiesOrderByCL"
 requestURI="administrator/dashboard.do" id="row">
 
 	<acme:column code="actor.name" property="${row.name}"/>
@@ -51,75 +45,49 @@ requestURI="administrator/dashboard.do" id="row">
 
 </display:table>
 
-<h2><spring:message code="administrator.avgACA" /></h2>
-<jstl:out value="${avgACA}"></jstl:out>
+<h2><spring:message code="administrator.avgLikesPChorbi" /></h2>
+<jstl:out value="${avgLikesPChorbi}"></jstl:out>
 
-<h2><spring:message code="administrator.avgACO" /></h2>
-<jstl:out value="${avgACO}"></jstl:out>
+<h2><spring:message code="administrator.maxLikesPChorbi" /></h2>
+<jstl:out value="${maxLikesPChorbi}"></jstl:out>
 
-<h2><spring:message code="administrator.avgACR" /></h2>
-<jstl:out value="${avgACR}"></jstl:out>
+<h2><spring:message code="administrator.minLikesPChorbi" /></h2>
+<jstl:out value="${minLikesPChorbi}"></jstl:out>
 
-<h2><spring:message code="administrator.avgACPA" /></h2>
-<jstl:out value="${avgACPA}"></jstl:out>
+<h2><spring:message code="administrator.avgChirpsRecChorbi" /></h2>
+<jstl:out value="${avgChirpsRecChorbi}"></jstl:out>
 
-<h2><spring:message code="administrator.avgACPC" /></h2>
-<jstl:out value="${avgACPC}"></jstl:out>
+<h2><spring:message code="administrator.maxChirpsRecChorbi" /></h2>
+<jstl:out value="${maxChirpsRecChorbi}"></jstl:out>
 
-<h2><spring:message code="administrator.actor10moreavgCPA" /></h2>
+<h2><spring:message code="administrator.minChirpsRecChorbi" /></h2>
+<jstl:out value="${minChirpsRecChorbi}"></jstl:out>
 
-<display:table pagesize="5" class="displaytag" name="actor10moreavgCPA"
+<h2><spring:message code="administrator.avgChirpsSendChorbi" /></h2>
+<jstl:out value="${avgChirpsSendChorbi}"></jstl:out>
+
+<h2><spring:message code="administrator.maxChirpsSendChorbi" /></h2>
+<jstl:out value="${maxChirpsSendChorbi}"></jstl:out>
+
+<h2><spring:message code="administrator.minChirpsSendChorbi" /></h2>
+<jstl:out value="${minChirpsSendChorbi}"></jstl:out>
+
+<h2><spring:message code="administrator.chorbiesMCR" /></h2>
+
+<display:table pagesize="5" class="displaytag" name="chorbiesMCR"
 requestURI="administrator/dashboard.do" id="row">
 
 	<acme:column code="actor.name" property="${row.name}"/>
 	<acme:column code="actor.surname" property="${row.surname}"/>
-	
+
 </display:table>
 
-<h2><spring:message code="administrator.actor10lessavgCPA" /></h2>
+<h2><spring:message code="administrator.chorbiesMCS" /></h2>
 
-<display:table pagesize="5" class="displaytag" name="actor10lessavgCPA"
+<display:table pagesize="5" class="displaytag" name="chorbiesMCS"
 requestURI="administrator/dashboard.do" id="row">
 
 	<acme:column code="actor.name" property="${row.name}"/>
 	<acme:column code="actor.surname" property="${row.surname}"/>
-	
-</display:table>
 
-<h2><spring:message code="administrator.maxMSA" /></h2>
-<jstl:out value="${maxMSA}"></jstl:out>
-
-<h2><spring:message code="administrator.minMSA" /></h2>
-<jstl:out value="${minMSA}"></jstl:out>
-
-<h2><spring:message code="administrator.avgMSA" /></h2>
-<jstl:out value="${avgMSA}"></jstl:out>
-
-<h2><spring:message code="administrator.maxMRA" /></h2>
-<jstl:out value="${maxMRA}"></jstl:out>
-
-<h2><spring:message code="administrator.minMRA" /></h2>
-<jstl:out value="${minMRA}"></jstl:out>
-
-<h2><spring:message code="administrator.avgMRA" /></h2>
-<jstl:out value="${avgMRA}"></jstl:out>
-
-<h2><spring:message code="administrator.actorsMMS" /></h2>
-
-<display:table pagesize="5" class="displaytag" name="actorsMMS"
-requestURI="administrator/dashboard.do" id="row">
-
-	<acme:column code="actor.name" property="${row.name}"/>
-	<acme:column code="actor.surname" property="${row.surname}"/>
-	
-</display:table>
-
-<h2><spring:message code="administrator.actorsMMR" /></h2>
-
-<display:table pagesize="5" class="displaytag" name="actorsMMR"
-requestURI="administrator/dashboard.do" id="row">
-
-	<acme:column code="actor.name" property="${row.name}"/>
-	<acme:column code="actor.surname" property="${row.surname}"/>
-	
 </display:table>
