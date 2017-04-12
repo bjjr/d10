@@ -144,10 +144,10 @@ public class ChirpServiceTest extends AbstractTest {
 
 		try {
 			Chirp created, sent, copy;
-			final Chorbi recipient;
+			final Chorbi chirped;
 
 			this.authenticate(username);
-			recipient = this.chorbiService.findOne(recipientId);
+			chirped = this.chorbiService.findOne(recipientId);
 			created = this.chirpService.create(recipientId);
 			created.setSubject("Subject test");
 			created.setText("Text test");
@@ -160,7 +160,7 @@ public class ChirpServiceTest extends AbstractTest {
 
 			Assert.isTrue(!sent.getCopy());
 			Assert.isTrue(copy.getCopy());
-			Assert.isTrue(sent.getRecipient().equals(recipient));
+			Assert.isTrue(sent.getChirped().equals(chirped));
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -185,8 +185,8 @@ public class ChirpServiceTest extends AbstractTest {
 			this.unauthenticate();
 
 			Assert.isTrue(result.getSubject().contains("RE:"));
-			Assert.isTrue(result.getSender().equals(chirp.getRecipient()));
-			Assert.isTrue(result.getRecipient().equals(chirp.getSender()));
+			Assert.isTrue(result.getChirper().equals(chirp.getChirped()));
+			Assert.isTrue(result.getChirped().equals(chirp.getChirper()));
 			Assert.isTrue(!result.getCopy());
 			Assert.isTrue(copy.getCopy());
 		} catch (final Throwable oops) {
@@ -210,7 +210,7 @@ public class ChirpServiceTest extends AbstractTest {
 			this.chirpService.flush();
 
 			Assert.isTrue(result.getSubject().contains("FW:"));
-			Assert.isTrue(result.getSender().equals(this.chorbiService.findByPrincipal()));
+			Assert.isTrue(result.getChirper().equals(this.chorbiService.findByPrincipal()));
 			Assert.isTrue(!result.getCopy());
 			Assert.isTrue(copy.getCopy());
 
