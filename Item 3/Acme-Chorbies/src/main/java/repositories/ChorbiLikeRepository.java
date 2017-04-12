@@ -21,10 +21,10 @@ public interface ChorbiLikeRepository extends JpaRepository<ChorbiLike, Integer>
 	@Query("select count(cl)*1.0/(select count(c) from Chorbi) from ChorbiLike c")
 	Double findAvgLikesPerChorbi();
 
-	@Query("select count(cl) from ChorbiLike cl group by cl.chorbi order by count(cl) desc")
+	@Query("select count(cl) from ChorbiLike cl group by cl.liker order by count(cl) desc")
 	Collection<Long> findMaxLikesPerChorbi();
 
-	@Query("select count(cl) from ChorbiLike cl group by cl.chorbi order by count(cl) asc")
+	@Query("select count(cl) from ChorbiLike cl group by cl.liker order by count(cl) asc")
 	Collection<Long> findMinLikesPerChorbi();
 
 }

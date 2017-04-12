@@ -1,12 +1,10 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +33,12 @@ public class CreditCardService {
 	public CreditCard create() {
 		final CreditCard res = new CreditCard();
 
-		final Date today = new DateTime().withTimeAtStartOfDay().toDate();
-
 		res.setHolder("");
 		res.setBrand("");
 		res.setNumber("");
 		res.setCvv(0);
-		res.setExpirationDate(DateUtils.addDays(today, 1));
+		res.setYear(0);
+		res.setMonth(0);
 
 		return res;
 	}
@@ -54,6 +51,9 @@ public class CreditCardService {
 		chorbi = this.chorbiService.findByPrincipal();
 		Assert.notNull(chorbi, "You are not logged as a Chorbi");
 
+		// Save Brand in Uppercase
+		creditCard.setBrand(creditCard.getBrand().toUpperCase());
+
 		Assert.isTrue(this.isCreditCardBrandValid(creditCard), "Brand name is not valid");
 		Assert.isTrue(this.isCreditCardDateValid(creditCard), "Date is not valid. The expiration date must be at least one day after today.");
 
@@ -65,7 +65,6 @@ public class CreditCardService {
 
 		return res;
 	}
-
 	public void flush() {
 		this.creditCardRepository.flush();
 	}
@@ -93,9 +92,9 @@ public class CreditCardService {
 		res = creditCard;
 
 		if (!this.isCreditCardDateValid(res))
-			bindingResult.rejectValue("creditCard", "Date is not valid. The expiration date must be at least one day after today.");
+			bindingResult.rejectValue("month", "creditcard.error.dates");
 		else if (!this.isCreditCardBrandValid(creditCard))
-			bindingResult.rejectValue("creditCard", "Brand name is not valid");
+			bindingResult.rejectValue("brand", "creditcard.error.brand");
 
 		this.validator.validate(res, bindingResult);
 		return res;
@@ -125,6 +124,20 @@ public class CreditCardService {
 	}
 
 	/**
+	 * Get the provided credit card's number masked to allow
+	 * display of it in views.
+	 * 
+	 * @param creditCard
+	 *            The credit card whose number must be masked
+	 * @return A string with the masked credit card's number
+	 */
+
+	public String getMaskedNumber(final CreditCard creditCard) {
+		Assert.notNull(creditCard);
+		return creditCard.getNumber().subSequence(0, 4) + StringUtils.repeat("*", 8) + creditCard.getNumber().substring(12);
+	}
+
+	/**
 	 * Given a credit card this method checks if its expiration date
 	 * is at least one day in the future.
 	 * 
@@ -133,18 +146,18 @@ public class CreditCardService {
 	 * @return The result of the check.
 	 */
 	public boolean isCreditCardDateValid(final CreditCard creditCard) {
-		long diff;
-		Date today;
-		Date expiryDate;
-
 		Assert.notNull(creditCard);
 
-		today = new DateTime().withTimeAtStartOfDay().toDate();
-		expiryDate = new DateTime(creditCard.getExpirationDate()).withTimeAtStartOfDay().toDate();
-
-		diff = expiryDate.getTime() - today.getTime();
-
-		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) >= 1;
+		final Calendar today = Calendar.getInstance();
+		if (creditCard.getYear() == today.get(Calendar.YEAR))
+			if (creditCard.getMonth() < today.get(Calendar.MONTH) + 1)
+				return false;
+			else
+				return true;
+		else if (creditCard.getYear() > today.get(Calendar.YEAR))
+			return true;
+		else
+			return false;
 	}
 
 	public CreditCard findChorbiCreditCard() {

@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import security.Authority;
 import security.UserAccount;
 import domain.Chorbi;
@@ -15,31 +20,21 @@ public class ChorbiForm {
 
 	// Chorbi attributes
 
-	private String	name;
-	private String	surname;
-	private String	email;
-	private String	phone;
-	private String	picture;
-	private String	description;
-	private Date	birthdate;
-	private String	gender;
-	private String	relationship;
-
-	// Coordinates attributes
-
-	private String	country;
-	private String	state;
-	private String	province;
-	private String	city;
-
-	// UserAccount attributes
-
-	private String	username;
-	private String	password;
+	private String		name;
+	private String		surname;
+	private String		email;
+	private String		phone;
+	private String		picture;
+	private String		description;
+	private Date		birthdate;
+	private String		gender;
+	private String		relationship;
+	private Coordinates	coordinates;
+	private UserAccount	userAccount;
 
 	// Form attributes
 
-	private String	passwdConfirmation;
+	private String		passwdConfirmation;
 
 
 	// Constructors
@@ -64,13 +59,9 @@ public class ChorbiForm {
 		this.description = chorbi.getDescription();
 		this.birthdate = chorbi.getBirthdate();
 		this.gender = chorbi.getGender();
-		this.country = chorbi.getCoordinates().getCountry();
-		this.state = chorbi.getCoordinates().getState();
-		this.province = chorbi.getCoordinates().getProvince();
-		this.city = chorbi.getCoordinates().getCity();
+		this.coordinates = chorbi.getCoordinates();
 		this.relationship = chorbi.getRelationship();
-		this.username = chorbi.getUserAccount().getUsername();
-		this.password = "";
+		this.userAccount = chorbi.getUserAccount();
 		this.passwdConfirmation = "";
 	}
 
@@ -82,24 +73,17 @@ public class ChorbiForm {
 
 	public Chorbi getChorbi() {
 		Chorbi res;
-		UserAccount ua;
 		Authority auth;
 		SearchTemplate st;
 		final List<Authority> auths;
-		Coordinates coordinates;
 
 		res = new Chorbi();
-
-		coordinates = new Coordinates();
 
 		auth = new Authority();
 		auths = new ArrayList<>();
 
 		auth.setAuthority(Authority.CHORBI);
 		auths.add(auth);
-
-		ua = new UserAccount();
-		ua.setAuthorities(auths);
 
 		st = new SearchTemplate();
 
@@ -111,20 +95,11 @@ public class ChorbiForm {
 		res.setDescription(this.description);
 		res.setBirthdate(this.birthdate);
 		res.setGender(this.gender);
-		res.setBanned(false);
 		res.setRelationship(this.relationship);
+		res.setCoordinates(this.coordinates);
+		this.userAccount.setAuthorities(auths);
+		res.setUserAccount(this.userAccount);
 
-		coordinates.setCountry(this.country);
-		coordinates.setState(this.state);
-		coordinates.setProvince(this.province);
-		coordinates.setCity(this.city);
-
-		res.setCoordinates(coordinates);
-
-		ua.setUsername(this.username);
-		ua.setPassword(this.password);
-
-		res.setUserAccount(ua);
 		res.setSearchTemplate(st);
 
 		return res;
@@ -178,6 +153,8 @@ public class ChorbiForm {
 		this.description = description;
 	}
 
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	public Date getBirthdate() {
 		return this.birthdate;
 	}
@@ -202,52 +179,20 @@ public class ChorbiForm {
 		this.relationship = relationship;
 	}
 
-	public String getCountry() {
-		return this.country;
+	public Coordinates getCoordinates() {
+		return this.coordinates;
 	}
 
-	public void setCountry(final String country) {
-		this.country = country;
+	public void setCoordinates(final Coordinates coordinates) {
+		this.coordinates = coordinates;
 	}
 
-	public String getState() {
-		return this.state;
+	public UserAccount getUserAccount() {
+		return this.userAccount;
 	}
 
-	public void setState(final String state) {
-		this.state = state;
-	}
-
-	public String getProvince() {
-		return this.province;
-	}
-
-	public void setProvince(final String province) {
-		this.province = province;
-	}
-
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(final String city) {
-		this.city = city;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(final String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
+	public void setUserAccount(final UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public String getPasswdConfirmation() {

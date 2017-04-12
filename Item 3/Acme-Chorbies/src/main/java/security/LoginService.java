@@ -34,7 +34,7 @@ public class LoginService implements UserDetailsService {
 	// Business methods -------------------------------------------------------
 
 	@Override
-	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, IllegalArgumentException {
 		Assert.notNull(username);
 
 		UserDetails result;
@@ -47,7 +47,6 @@ public class LoginService implements UserDetailsService {
 
 		return result;
 	}
-
 	public static UserAccount getPrincipal() {
 		UserAccount result;
 		SecurityContext context;

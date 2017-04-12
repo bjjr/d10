@@ -144,7 +144,7 @@
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CHORBI" />
+					<property name="authority" value="BANNED" />
 				</bean>
 			</list>
 		</property>
@@ -174,7 +174,6 @@
 		<property name="birthdate" value="01/01/1982" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates1" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="LOVE" />
 		<property name="userAccount" ref="userAccountC1" />
 		<property name="searchTemplate" ref="searchTemplate1" />
@@ -190,7 +189,6 @@
 		<property name="birthdate" value="05/25/1984" />
 		<property name="gender" value="WOMAN" />
 		<property name="coordinates" ref="coordinates2" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="LOVE" />
 		<property name="userAccount" ref="userAccountC2" />
 		<property name="searchTemplate" ref="searchTemplate2" />
@@ -206,7 +204,6 @@
 		<property name="birthdate" value="03/17/1979" />
 		<property name="gender" value="WOMAN" />
 		<property name="coordinates" ref="coordinates3" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="LOVE" />
 		<property name="userAccount" ref="userAccountC3" />
 		<property name="creditCard" ref="creditCard1" />
@@ -223,7 +220,6 @@
 		<property name="birthdate" value="04/25/1981" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates4" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="ACTIVITIES" />
 		<property name="userAccount" ref="userAccountC4" />
 		<property name="creditCard" ref="creditCard2" />
@@ -240,7 +236,6 @@
 		<property name="birthdate" value="11/12/1989" />
 		<property name="gender" value="WOMAN" />
 		<property name="coordinates" ref="coordinates4" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="ACTIVITIES" />
 		<property name="userAccount" ref="userAccountC5" />
 		<property name="creditCard" ref="creditCard3" />
@@ -257,7 +252,6 @@
 		<property name="birthdate" value="01/12/1971" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates3" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="ACTIVITIES" />
 		<property name="userAccount" ref="userAccountC6" />
 		<property name="creditCard" ref="creditCard4" />
@@ -274,7 +268,6 @@
 		<property name="birthdate" value="04/17/1975" />
 		<property name="gender" value="WOMAN" />
 		<property name="coordinates" ref="coordinates2" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="FRIENDSHIP" />
 		<property name="userAccount" ref="userAccountC7" />
 		<property name="creditCard" ref="creditCard5" />
@@ -291,7 +284,6 @@
 		<property name="birthdate" value="06/21/1980" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates1" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="FRIENDSHIP" />
 		<property name="userAccount" ref="userAccountC8" />
 		<property name="searchTemplate" ref="searchTemplate8" />
@@ -307,7 +299,6 @@
 		<property name="birthdate" value="07/21/1978" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates1" />
-		<property name="banned" value="false" />
 		<property name="relationship" value="FRIENDSHIP" />
 		<property name="userAccount" ref="userAccountC9" />
 		<property name="searchTemplate" ref="searchTemplate9" />
@@ -323,7 +314,6 @@
 		<property name="birthdate" value="02/27/1982" />
 		<property name="gender" value="MAN" />
 		<property name="coordinates" ref="coordinates3" />
-		<property name="banned" value="true" />
 		<property name="relationship" value="FRIENDSHIP" />
 		<property name="userAccount" ref="userAccountC10" />
 		<property name="searchTemplate" ref="searchTemplate10" />
@@ -402,7 +392,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="VISA" />
 		<property name="number" value="869964971792152" />
-		<property name="expirationDate" value="02/01/2020" />
+		<property name="year" value="2020" />
+		<property name="month" value="01" />
 		<property name="cvv" value="301" />
 	</bean>
 	
@@ -410,7 +401,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="MASTERCARD" />
 		<property name="number" value="869958262282899" />
-		<property name="expirationDate" value="01/01/2019" />
+		<property name="year" value="2019" />
+		<property name="month" value="02" />
 		<property name="cvv" value="104" />
 	</bean>
 	
@@ -418,7 +410,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="DISCOVER" />
 		<property name="number" value="869910591110382" />
-		<property name="expirationDate" value="03/01/2019" />
+		<property name="year" value="2019" />
+		<property name="month" value="03" />
 		<property name="cvv" value="602" />
 	</bean>
 	
@@ -426,7 +419,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="DINNERS" />
 		<property name="number" value="869930337417727" />
-		<property name="expirationDate" value="11/01/2015" />
+		<property name="year" value="2015" />
+		<property name="month" value="11" />
 		<property name="cvv" value="496" />
 	</bean>
 	
@@ -434,7 +428,8 @@
 		<property name="holder" value="holderName1"/>
 		<property name="brand" value="AMEX" />
 		<property name="number" value="869922049378552" />
-		<property name="expirationDate" value="05/01/2011" />
+		<property name="year" value="2011" />
+		<property name="month" value="05" />
 		<property name="cvv" value="890" />
 	</bean>
 	

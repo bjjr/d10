@@ -12,28 +12,28 @@ import domain.Chirp;
 @Repository
 public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 
-	@Query("select c from Chirp c where c.copy = false and c.chirper.id = ?1")
+	@Query("select c from Chirp c where c.copy = false and c.sender.id = ?1")
 	Collection<Chirp> findChirpsSent(int chorbiId);
 
-	@Query("select c from Chirp c where c.copy = true and c.chirped.id = ?1")
+	@Query("select c from Chirp c where c.copy = true and c.recipient.id = ?1")
 	Collection<Chirp> findChirpsReceived(int chorbiId);
 
 	@Query("select count(cp)*1.0/(select count(c) from Chorbi) from Chirp cp")
 	Double findAvgChirpsRecPerChorbi();
 
-	@Query("select count(cp) from Chirp cp group by cp.chirped order by count(cp) desc")
+	@Query("select count(cp) from Chirp cp group by cp.recipient order by count(cp) desc")
 	Collection<Long> findMaxChirpsRecPerChorbi();
 
-	@Query("select count(cp) from Chirp cp group by cp.chirped order by count(cp) asc")
+	@Query("select count(cp) from Chirp cp group by cp.recipient order by count(cp) asc")
 	Collection<Long> findMinChirpsRecPerChorbi();
 
 	@Query("select count(cp)*1.0/(select count(c) from Chorbi) from Chirp cp")
 	Double findAvgChirpsSendPerChorbi();
 
-	@Query("select count(cp) from Chirp cp group by cp.chirper order by count(cp) desc")
+	@Query("select count(cp) from Chirp cp group by cp.sender order by count(cp) desc")
 	Collection<Long> findMaxChirpsSendPerChorbi();
 
-	@Query("select count(cp) from Chirp cp group by cp.chirper order by count(cp) asc")
+	@Query("select count(cp) from Chirp cp group by cp.sender order by count(cp) asc")
 	Collection<Long> findMinChirpsSendPerChorbi();
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 
 import repositories.BannerRepository;
 import domain.Banner;
@@ -84,5 +85,12 @@ public class BannerService {
 		result = banners.get(random.nextInt(banners.size()));
 
 		return result;
+	}
+
+	public Banner reconstruct(final Banner banner, final BindingResult binding) {
+
+		banner.setService(this.findOne(banner.getId()).getService());
+
+		return banner;
 	}
 }
