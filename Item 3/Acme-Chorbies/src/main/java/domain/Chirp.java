@@ -85,30 +85,30 @@ public class Chirp extends DomainEntity {
 
 	// Relationships
 
-	private Chorbi	sender;
-	private Chorbi	recipient;
+	private Chorbi	chirper;
+	private Chorbi	chirped;
 
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Chorbi getSender() {
-		return this.sender;
+	public Chorbi getChirper() {
+		return this.chirper;
 	}
 
-	public void setSender(final Chorbi sender) {
-		this.sender = sender;
+	public void setChirper(final Chorbi chirper) {
+		this.chirper = chirper;
 	}
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Chorbi getRecipient() {
-		return this.recipient;
+	public Chorbi getChirped() {
+		return this.chirped;
 	}
 
-	public void setRecipient(final Chorbi recipient) {
-		this.recipient = recipient;
+	public void setChirped(final Chorbi chirped) {
+		this.chirped = chirped;
 	}
 
 }
