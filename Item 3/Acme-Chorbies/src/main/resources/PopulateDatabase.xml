@@ -353,47 +353,73 @@
 		<property name="city" value="CITY4" />
 	</bean>
 	
+	<bean id="coordinates5" class="domain.Coordinates">
+		
+	</bean>
+	
+	
+	
+	<!-- COORDINATES TEMPLATE -->
+	
+	<bean id="coordinatesTemplate4" class="domain.CoordinatesTemplate">
+		<property name="country" value="COUNTRY1" />
+		<property name="city" value="CITY4" />
+	</bean>
+	
+	<bean id="coordinatesTemplate5" class="domain.CoordinatesTemplate">
+	</bean>
+	
+	
 	<!-- SEARCH TEMPLATES -->
 	
 	<bean id="searchTemplate1" class="domain.SearchTemplate">
+	<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate2" class="domain.SearchTemplate">
+	<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate3" class="domain.SearchTemplate">
+	<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate4" class="domain.SearchTemplate">
 		<property name="age" value="30" />
 		<property name="gender" value="WOMAN" />
-		<property name="coordinates" ref="coordinates4" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate4" />
 		<property name="keyword" value="chorbiName" />
 		<property name="relationship" value="ACTIVITIES" />
 	</bean>
 	
 	<bean id="searchTemplate5" class="domain.SearchTemplate">
 		<property name="relationship" value="FRIENDSHIP" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate6" class="domain.SearchTemplate">
 		<property name="relationship" value="ACTIVITIES" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate7" class="domain.SearchTemplate">
 		<property name="relationship" value="ACTIVITIES" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate8" class="domain.SearchTemplate">
 		<property name="relationship" value="LOVE" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate9" class="domain.SearchTemplate">
 		<property name="relationship" value="ACTIVITIES" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<bean id="searchTemplate10" class="domain.SearchTemplate">
 		<property name="relationship" value="LOVE" />
+		<property name="coordinatesTemplate" ref="coordinatesTemplate5" />
 	</bean>
 	
 	<!-- CREDIT CARDS -->
