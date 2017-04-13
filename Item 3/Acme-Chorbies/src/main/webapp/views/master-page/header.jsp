@@ -32,6 +32,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.chorbi.editSearchTemplate" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
