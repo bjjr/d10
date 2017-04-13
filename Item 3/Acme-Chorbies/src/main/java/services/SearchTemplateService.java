@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -89,7 +90,7 @@ public class SearchTemplateService {
 
 	// Other business methods
 
-	// //TODO: hacer cacheable
+	@Cacheable(value = "chorbiesPerSearchTemplate", key = "#searchTemplate.id")
 	public Collection<Chorbi> search(final SearchTemplate searchTemplate) {
 
 		final Chorbi loggedChorbi = this.chorbiService.findByPrincipal();
@@ -101,24 +102,21 @@ public class SearchTemplateService {
 	}
 
 	private Collection<Chorbi> findChorbiesBySearchTemplate(final SearchTemplate searchTemplate) {
-		Collection<Chorbi> res = new ArrayList<>();
+		final Collection<Chorbi> res = new ArrayList<>();
 
-		if (searchTemplate.getCoordinatesTemplate() != null) {
+		if (searchTemplate.getCoordinatesTemplate() != null)
 			res.addAll(this.searchTemplateRepository.findChorbiesBySearchTemplate(searchTemplate.getGender(), searchTemplate.getRelationship(), searchTemplate.getCoordinatesTemplate().getCountry(), searchTemplate.getCoordinatesTemplate().getState(),
 				searchTemplate.getCoordinatesTemplate().getProvince(), searchTemplate.getCoordinatesTemplate().getCity(), searchTemplate.getKeyword()));
-		} else {
+		else
 			res.addAll(this.searchTemplateRepository.findChorbiesBySearchTemplateWithoutCoordinates(searchTemplate.getGender(), searchTemplate.getRelationship(), searchTemplate.getKeyword()));
-		}
 
-		Collection<Chorbi> aux = new ArrayList<>();   //I need to do this regarding ConcurrentModificationException
-		if (searchTemplate.getAge() != null) {
-			for (Chorbi c : res) {
-				Integer age = Years.yearsBetween(LocalDate.fromDateFields(c.getBirthdate()), LocalDate.now()).getYears();
-				if (!(age > (searchTemplate.getAge() - 5) && age < (searchTemplate.getAge() + 5))) {
+		final Collection<Chorbi> aux = new ArrayList<>();   //I need to do this regarding ConcurrentModificationException
+		if (searchTemplate.getAge() != null)
+			for (final Chorbi c : res) {
+				final Integer age = Years.yearsBetween(LocalDate.fromDateFields(c.getBirthdate()), LocalDate.now()).getYears();
+				if (!(age > (searchTemplate.getAge() - 5) && age < (searchTemplate.getAge() + 5)))
 					aux.add(c);
-				}
 			}
-		}
 		res.removeAll(aux);
 
 		return res;
