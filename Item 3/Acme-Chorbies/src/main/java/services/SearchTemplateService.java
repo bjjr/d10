@@ -64,6 +64,10 @@ public class SearchTemplateService {
 		return this.searchTemplateRepository.findOne(id);
 	}
 
+	public void flush() {
+		this.searchTemplateRepository.flush();
+	}
+
 	private Boolean isAValidSearchTemplate(final SearchTemplate searchTemplate) {
 		Boolean res = true;
 
