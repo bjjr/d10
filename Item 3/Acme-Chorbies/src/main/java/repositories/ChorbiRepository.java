@@ -24,16 +24,16 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select min(SUBSTRING(CURRENT_DATE, 1, 4) - SUBSTRING(c.birthdate, 1, 4)) from Chorbi c")
 	Double findMinAgeChorbies();
 
-	@Query("select count(c) from Chorbi c where c.creditCard = null or c.creditCard.year < SUBSTRING(CURRENT_DATE, 1, 4) or (c.creditCard.year >= SUBSTRING(CURRENT_DATE, 1, 4) and c.creditCard.month <=  SUBSTRING(CURRENT_DATE, 6, 2))*1./(select c from Chorbi c) ")
+	@Query("select (count(c) + (select count(c) from Chorbi c where c.creditCard.year < SUBSTRING(CURRENT_DATE, 1, 4) or (c.creditCard.year = SUBSTRING(CURRENT_DATE, 1, 4) and c.creditCard.month < SUBSTRING(CURRENT_DATE, 6, 2)))) *1. / (select count(c) from Chorbi c) from Chorbi c where c.creditCard is null")
 	Double findRatioChorbiesNoCCInvCC();
 
-	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'activities'")
+	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'ACTIVITIES'")
 	Double findRatioChorbiesSearchAct();
 
-	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'friendship'")
+	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'FRIENDSHIP'")
 	Double findRatioChorbiesSearchFriend();
 
-	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'love'")
+	@Query("select count(c)*1./(select count(c) from Chorbi c) from Chorbi c where c.searchTemplate.relationship like 'LOVE'")
 	Double findRatioChorbiesSearchLove();
 
 	@Query("select cl.liked from ChorbiLike cl group by cl.liked order by count(cl) desc")

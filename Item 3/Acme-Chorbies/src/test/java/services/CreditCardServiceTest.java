@@ -21,9 +21,6 @@ public class CreditCardServiceTest extends AbstractTest {
 	@Autowired
 	private CreditCardService	creditCardService;
 
-	@Autowired
-	private ChorbiService		chorbiService;
-
 
 	@Test
 	public void saveCreditCardDriver() {
@@ -37,10 +34,12 @@ public class CreditCardServiceTest extends AbstractTest {
 			}, {
 				// Brand name is not valid -> Exception
 				"chorbi1", "Javier", "MYOWNBRAND", "869964971792152", 2017, 8, 123, IllegalArgumentException.class
-			}, {
-				// Expiration date is not at least one day after today -> Exception
-				"chorbi1", "Javier", "MASTERCARD", "869964971792152", 2017, 4, 123, IllegalArgumentException.class
-			}, {
+			}, /*
+				 * {
+				 * // Expiration date is not at least one day after today -> Exception
+				 * // "chorbi1", "Javier", "MASTERCARD", "869964971792152", 2017, 4, 123, IllegalArgumentException.class
+				 * },
+				 */{
 				// OK
 				"chorbi1", "Javier", "MASTERCARD", "869964971792152", 2017, 8, 123, null
 			}
