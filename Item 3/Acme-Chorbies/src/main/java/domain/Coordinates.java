@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
@@ -22,6 +23,7 @@ public class Coordinates {
 
 	@NotBlank
 	@NotNull
+	@SafeHtml
 	public String getCountry() {
 		return this.country;
 	}
@@ -30,6 +32,7 @@ public class Coordinates {
 		this.country = country;
 	}
 
+	@SafeHtml
 	public String getState() {
 		return this.state;
 	}
@@ -38,6 +41,7 @@ public class Coordinates {
 		this.state = state;
 	}
 
+	@SafeHtml
 	public String getProvince() {
 		return this.province;
 	}
@@ -48,6 +52,7 @@ public class Coordinates {
 
 	@NotBlank
 	@NotNull
+	@SafeHtml
 	public String getCity() {
 		return this.city;
 	}

@@ -17,6 +17,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -53,6 +54,7 @@ public class Chorbi extends Actor {
 	@NotBlank
 	@NotNull
 	@Size(min = 1, max = 1500)
+	@SafeHtml
 	public String getDescription() {
 		return this.description;
 	}

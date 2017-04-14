@@ -5,6 +5,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
+import org.hibernate.validator.constraints.SafeHtml;
+
 @Embeddable
 @Access(AccessType.PROPERTY)
 public class CoordinatesTemplate {
@@ -17,6 +19,7 @@ public class CoordinatesTemplate {
 	private String	city;
 
 
+	@SafeHtml
 	public String getCountry() {
 		return this.country;
 	}
@@ -25,6 +28,7 @@ public class CoordinatesTemplate {
 		this.country = country;
 	}
 
+	@SafeHtml
 	public String getState() {
 		return this.state;
 	}
@@ -33,6 +37,7 @@ public class CoordinatesTemplate {
 		this.state = state;
 	}
 
+	@SafeHtml
 	public String getProvince() {
 		return this.province;
 	}
@@ -41,6 +46,7 @@ public class CoordinatesTemplate {
 		this.province = province;
 	}
 
+	@SafeHtml
 	public String getCity() {
 		return this.city;
 	}
