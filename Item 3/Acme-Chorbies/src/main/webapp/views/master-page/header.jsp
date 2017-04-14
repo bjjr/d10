@@ -37,6 +37,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><acme:link href="chorbi/edit.do" code="master.page.chorbi.edit" /></li>
+					<li><acme:link href="searchTemplate/chorbi/edit.do" code="master.page.chorbi.editSearchTemplate" /></li>
 					<li><acme:link href="userAccount/edit.do" code="master.page.ua.edit" /></li>
 					<li><acme:link href="chirp/chorbi/listSent.do" code="master.page.chorbi.chirp.listSent" /></li>
 					<li><acme:link href="chirp/chorbi/listReceived.do" code="master.page.chorbi.chirp.listReceived" /></li>

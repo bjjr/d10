@@ -4,7 +4,6 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.validation.Valid;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -12,11 +11,11 @@ public class SearchTemplate extends DomainEntity {
 
 	// Attributes 
 
-	private Integer		age;
-	private String		gender;
-	private Coordinates	coordinates;
-	private String		keyword;
-	private String		relationship;
+	private Integer				age;
+	private String				gender;
+	private CoordinatesTemplate	coordinatesTemplate;
+	private String				keyword;
+	private String				relationship;
 
 
 	public Integer getAge() {
@@ -35,13 +34,12 @@ public class SearchTemplate extends DomainEntity {
 		this.gender = gender;
 	}
 
-	@Valid
-	public Coordinates getCoordinates() {
-		return this.coordinates;
+	public CoordinatesTemplate getCoordinatesTemplate() {
+		return this.coordinatesTemplate;
 	}
 
-	public void setCoordinates(final Coordinates coordinates) {
-		this.coordinates = coordinates;
+	public void setCoordinatesTemplate(final CoordinatesTemplate coordinatesTemplate) {
+		this.coordinatesTemplate = coordinatesTemplate;
 	}
 
 	public String getKeyword() {
@@ -62,7 +60,7 @@ public class SearchTemplate extends DomainEntity {
 
 	@Override
 	public String toString() {
-		return "SearchTemplate [age=" + this.age + ", gender=" + this.gender + ", coordinates=" + this.coordinates + ", keyword=" + this.keyword + ", relationship=" + this.relationship + "]";
+		return "SearchTemplate [age=" + this.age + ", gender=" + this.gender + ", coordinatesTemplate=" + this.coordinatesTemplate + ", keyword=" + this.keyword + ", relationship=" + this.relationship + "]";
 	}
 
 }
