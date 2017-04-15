@@ -128,14 +128,14 @@
 	</bean>
 	
 	<!--  Cache -->
-	 <cache:annotation-driven />
-
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-	    <property name="cacheManager" ref="ehCache"/>
-	</bean>
+	<cache:annotation-driven />
 	
-	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-	    <property name="configLocation" value="classpath:ehcache.xml"/>
+	<bean class="org.springframework.cache.ehcache.EhCacheCacheManager">
+	    <property name="cacheManager">
+	        <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	            <property name="configLocation" value="classpath:ehcache.xml"/>
+	        </bean>
+	    </property>
 	</bean>
 
 </beans>
