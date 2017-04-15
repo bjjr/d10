@@ -18,7 +18,7 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 	@Query("select c from Chirp c where c.copy = true and c.recipient.id = ?1")
 	Collection<Chirp> findChirpsReceived(int chorbiId);
 
-	@Query("select count(cp)*1.0/(select count(c) from Chorbi) from Chirp cp")
+	@Query("select count(cp)*1.0/(select count(c) from Chorbi c) from Chirp cp where cp.copy is true")
 	Double findAvgChirpsRecPerChorbi();
 
 	@Query("select count(cp) from Chirp cp group by cp.recipient order by count(cp) desc")
@@ -27,7 +27,7 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 	@Query("select count(cp) from Chirp cp group by cp.recipient order by count(cp) asc")
 	Collection<Long> findMinChirpsRecPerChorbi();
 
-	@Query("select count(cp)*1.0/(select count(c) from Chorbi) from Chirp cp")
+	@Query("select count(cp)*1.0/(select count(c) from Chorbi c) from Chirp cp where cp.copy is true")
 	Double findAvgChirpsSendPerChorbi();
 
 	@Query("select count(cp) from Chirp cp group by cp.sender order by count(cp) desc")
