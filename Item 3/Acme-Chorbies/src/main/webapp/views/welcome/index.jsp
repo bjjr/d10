@@ -21,3 +21,7 @@
 <img alt="<spring:message code="welcome.url.broken" />" src="${ banner.path }"  style="max-height: 40vh" />
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+
+<div id="legal" style="background-color:#bababa;">
+	<spring:message code="welcome.legal" /> <button id="hide">OK</button>
+</div>
