@@ -27,6 +27,7 @@
 		<value>/views/creditCard/tiles.xml</value>
 		<value>/views/chorbi/tiles.xml</value>
 		<value>/views/searchTemplate/tiles.xml</value>
+		<value>/views/cache/tiles.xml</value>
 	</util:list>
 
 </beans>
