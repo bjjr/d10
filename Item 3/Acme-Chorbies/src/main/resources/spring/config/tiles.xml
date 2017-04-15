@@ -31,6 +31,7 @@
 		<value>/views/chirp/tiles.xml</value>
 		<value>/views/userAccount/tiles.xml</value>
 		<value>/views/searchTemplate/tiles.xml</value>
+		<value>/views/cache/tiles.xml</value>
 	</util:list>
 
 </beans>

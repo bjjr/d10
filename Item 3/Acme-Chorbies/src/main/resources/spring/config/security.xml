@@ -62,6 +62,9 @@
 		<security:intercept-url pattern="/searchTemplate/chorbi/edit.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/searchTemplate/chorbi/search.do" access="hasRole('CHORBI')" />
 	
+		<security:intercept-url pattern="/cache/administrator/display.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/cache/administrator/edit.do" access="hasRole('ADMIN')" /> 
+	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
