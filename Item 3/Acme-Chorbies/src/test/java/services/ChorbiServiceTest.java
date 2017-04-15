@@ -43,20 +43,50 @@ public class ChorbiServiceTest extends AbstractTest {
 	@Test
 	public void registerDriver() {
 		final Object testingData[][] = {
-			{
+			{// User inputs valid data
 				null, "20/01/1985", "passwd1", "passwd1", null
-			// User inputs valid data
-			}, {
+			}, {// New user is under legal age
 				null, "20/01/2003", "passwd1", "passwd1", IllegalArgumentException.class
-			// New user is under legal age
-			}, {
+			}, {// User did not write the same password in confirmation field
 				null, "20/01/1985", "passwd1", "passwd2", IllegalArgumentException.class
-			// User did not write the same password in confirmation field
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.registerTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+	}
+
+	/*
+	 * Functional Requirement: An actor who is authenticated as a chorbi must be able to change his or her profile
+	 */
+
+	// TODO: Fix this tests
+
+	//	@Test
+	//	public void profileEditionDriver() {
+	//		final Object testingData[][] = {
+	//			{// A chorbi changes his/her profile correctly
+	//				"chorbi1", "This is my new description", "newemail@test.com", null
+	//			}, {// A chorbi makes a mistake in his/her description
+	//				"chorbi2", "", "newemail@test.com", IllegalArgumentException.class
+	//			}, {// A chorbi makes a mistake in his/her email
+	//				"chorbi3", "This is my new description", "email.", IllegalArgumentException.class
+	//			}
+	//		};
+	//
+	//		for (int i = 0; i < testingData.length; i++)
+	//			this.profileEditionTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+	//	}
+
+	@Test
+	public void maskSensibleDataTest() {
+		String text, maskedText, expected;
+
+		text = "You can contact me at +34 111 222 333 or someone@somewhere.com";
+		maskedText = this.chorbiService.maskSensibleData(text);
+		expected = "You can contact me at *** or ***";
+
+		Assert.isTrue(maskedText.equals(expected));
 	}
 
 	// Templates ------------------------------------
@@ -103,6 +133,44 @@ public class ChorbiServiceTest extends AbstractTest {
 
 			saved = this.chorbiService.save(reconstructed);
 			Assert.isTrue(saved.getId() != 0);
+
+			this.unauthenticate();
+		} catch (final Throwable th) {
+			caught = th.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void profileEditionTemplate(final String username, final String description, final String email, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			this.authenticate(username);
+
+			Chorbi principal, copy, reconstructed;
+			DataBinder dataBinder;
+			BindingResult binding;
+
+			principal = this.chorbiService.findByPrincipal();
+			copy = principal;
+			dataBinder = new DataBinder(copy, "chorbi");
+			binding = dataBinder.getBindingResult();
+
+			copy.setDescription(description);
+			copy.setEmail(email);
+
+			// Simulating a pruned object
+
+			copy.setCreditCard(null);
+			copy.setSearchTemplate(null);
+
+			reconstructed = this.chorbiService.reconstruct(copy, binding);
+			Assert.isTrue(!binding.hasErrors());
+
+			this.chorbiService.save(reconstructed);
 
 			this.unauthenticate();
 		} catch (final Throwable th) {
