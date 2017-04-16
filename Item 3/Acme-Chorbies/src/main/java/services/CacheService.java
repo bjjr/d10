@@ -22,25 +22,21 @@ public class CacheService {
 	@Autowired
 	private ActorService	actorService;
 
-	// Cache manager --------------------------------
-
-	@Autowired
-	private CacheManager	cacheManager;
-
 
 	// Methods --------------------------------------
 
 	public CacheConfiguration getCacheConfig() {
 		Assert.isTrue(this.actorService.checkAuthority("ADMIN"));
+		CacheManager cacheManager;
 		Cache cache;
 		CacheConfiguration config;
 
-		cache = this.cacheManager.getCache("chorbiesPerSearchTemplate");
+		cacheManager = CacheManager.getInstance();
+		cache = cacheManager.getCache("chorbiesPerSearchTemplate");
 		config = cache.getCacheConfiguration();
 
 		return config;
 	}
-
 	@CacheEvict(value = "chorbiesPerSearchTemplate", allEntries = true)
 	public void applyConfig(final CacheForm cacheForm) {
 		Assert.isTrue(this.actorService.checkAuthority("ADMIN"));
