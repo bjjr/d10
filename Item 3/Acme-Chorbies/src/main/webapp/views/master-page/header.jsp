@@ -33,6 +33,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.chorbi.editSearchTemplate" /></a></li>
+					<li><a href="creditCard/chorbi/display.do"><spring:message code="master.page.chorbi.editCreditCard" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
