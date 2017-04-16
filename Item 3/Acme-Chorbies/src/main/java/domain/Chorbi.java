@@ -1,6 +1,7 @@
 
 package domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -28,16 +29,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 		"description", "gender", "city", "country", "province", "state"
 	})
 })
-public class Chorbi extends Actor {
+public class Chorbi extends Actor implements Serializable {
 
 	//Attributes
 
-	private String		picture;
-	private String		description;
-	private Date		birthdate;
-	private String		gender;
-	private Coordinates	coordinates;
-	private String		relationship;
+	private static final long	serialVersionUID	= -9116541658355470130L;
+	private String				picture;
+	private String				description;
+	private Date				birthdate;
+	private String				gender;
+	private Coordinates			coordinates;
+	private String				relationship;
 
 
 	@NotBlank

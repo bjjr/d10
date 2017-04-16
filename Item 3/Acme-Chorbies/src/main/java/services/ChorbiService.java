@@ -206,7 +206,7 @@ public class ChorbiService {
 		gender = chorbiForm.getGender();
 		relationship = chorbiForm.getRelationship();
 
-		Assert.isTrue(gender.equals("MALE") || gender.equals("FEMALE") || gender.equals(""), "Invalid value detected");
+		Assert.isTrue(gender.equals("MAN") || gender.equals("WOMAN") || gender.equals(""), "Invalid value detected");
 		Assert.isTrue(relationship.equals("LOVE") || relationship.equals("ACTIVITIES") || relationship.equals("FRIENDSHIP") || relationship.equals(""), "Invalid value detected");
 
 		res = chorbiForm.getChorbi();

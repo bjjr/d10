@@ -9,10 +9,18 @@
 
 <form:form action="cache/administrator/edit.do" modelAttribute="cacheForm" >
 
-	<acme:textbox code="cache.timeout" path="timeout" size="5" />
+	<acme:textbox code="cache.hours" path="hours" size="2" />
+	<br/>
+	<acme:textbox code="cache.minutes" path="minutes" size="2" />
+	<br/>
+	<acme:textbox code="cache.seconds" path="seconds" size="2" />
+	<br/>
 	
 	<div>
 		<acme:submit name="save" code="misc.save"/>
 		<acme:cancel url="cache/administrator/display.do" code="misc.cancel"/>
 	</div>
+	<br/>
+	
+	<p><spring:message code="cache.warning" /></p>
 </form:form>

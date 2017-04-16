@@ -45,6 +45,7 @@ public class ChorbiAdministratorController extends AbstractController {
 
 	// Unban ----------------------------------------
 
+	@RequestMapping(value = "/unban")
 	public ModelAndView unban(@RequestParam final int chorbiId) {
 		ModelAndView res;
 

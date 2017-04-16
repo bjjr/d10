@@ -1,6 +1,8 @@
 
 package domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -13,16 +15,17 @@ import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class CreditCard extends DomainEntity {
+public class CreditCard extends DomainEntity implements Serializable {
 
 	// Attributes 
 
-	private String	holder;
-	private String	brand;
-	private String	number;
-	private int		year;
-	private int		month;
-	private int		cvv;
+	private static final long	serialVersionUID	= -5419734414589046716L;
+	private String				holder;
+	private String				brand;
+	private String				number;
+	private int					year;
+	private int					month;
+	private int					cvv;
 
 
 	@NotBlank

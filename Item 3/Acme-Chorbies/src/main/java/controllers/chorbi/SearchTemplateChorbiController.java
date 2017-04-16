@@ -70,7 +70,7 @@ public class SearchTemplateChorbiController extends AbstractController {
 		Collection<Chorbi> chorbiesMatched = this.searchTemplateService.search(searchTemplateCurrentUser);
 
 		view.addObject("chorbies", chorbiesMatched);
-		view.addObject("requestUri", "searchTemplate/chorbi/search.do");
+		view.addObject("requestURI", "searchTemplate/chorbi/search.do");
 
 		return view;
 	}

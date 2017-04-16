@@ -1,15 +1,18 @@
 
 package controllers.administrator;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
+import javax.validation.Valid;
+
 import net.sf.ehcache.config.CacheConfiguration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CacheService;
 import controllers.AbstractController;
 import forms.CacheForm;
 
@@ -17,12 +20,24 @@ import forms.CacheForm;
 @RequestMapping("/cache/administrator")
 public class CacheAdministratorController extends AbstractController {
 
+	// Services -------------------------------------
+
+	@Autowired
+	private CacheService	cacheService;
+
+
+	// Display --------------------------------------
+
 	@RequestMapping(value = "/display")
 	public ModelAndView display() {
 		ModelAndView res;
+		CacheConfiguration cacheConfig;
+		CacheForm cacheForm;
 
+		cacheConfig = this.cacheService.getCacheConfig();
+		cacheForm = new CacheForm(cacheConfig.getTimeToIdleSeconds());
 		res = new ModelAndView("cache/display");
-		res.addObject("timeout", this.getCurrentTimeout());
+		res.addObject("cacheForm", cacheForm);
 
 		return res;
 	}
@@ -30,43 +45,33 @@ public class CacheAdministratorController extends AbstractController {
 	@RequestMapping(value = "/edit")
 	public ModelAndView create() {
 		ModelAndView res;
-		final CacheForm cacheForm = new CacheForm(this.getCurrentTimeout());
+		CacheForm cacheForm;
+		CacheConfiguration cacheConfig;
 
+		cacheConfig = this.cacheService.getCacheConfig();
+		cacheForm = new CacheForm(cacheConfig.getTimeToIdleSeconds());
 		res = this.createEditModelAndView(cacheForm);
 
 		return res;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final CacheForm cacheForm) {
+	public ModelAndView save(final @Valid CacheForm cacheForm, final BindingResult binding) {
 		ModelAndView res;
 
-		if (cacheForm.getTimeout() == 0)
+		if (cacheForm.getTtl(cacheForm) == 0)
 			res = this.createEditModelAndView(cacheForm, "cache.invalid");
+		else if (binding.hasErrors())
+			res = this.createEditModelAndView(cacheForm);
 		else
 			try {
-				this.setTimeout(cacheForm.getTimeout());
+				this.cacheService.applyConfig(cacheForm);
 				res = new ModelAndView("redirect:display.do");
 			} catch (final Throwable th) {
 				res = this.createEditModelAndView(cacheForm, "misc.commit.error");
 			}
 
 		return res;
-	}
-	private long getCurrentTimeout() {
-		return this.getCacheConfiguration().getTimeToIdleSeconds();
-	}
-
-	private void setTimeout(final long timeout) {
-		final CacheConfiguration config = this.getCacheConfiguration();
-		config.setTimeToIdleSeconds(timeout);
-		config.setTimeToLiveSeconds(timeout);
-	}
-
-	private CacheConfiguration getCacheConfiguration() {
-		final CacheManager manager = CacheManager.newInstance();
-		final Cache cache = manager.getCache("chorbiesPerSearchTemplate");
-		return cache.getCacheConfiguration();
 	}
 
 	protected ModelAndView createEditModelAndView(final CacheForm cacheForm) {

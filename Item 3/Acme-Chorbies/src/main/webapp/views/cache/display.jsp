@@ -7,6 +7,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<acme:display code="cache.timeout" property="${timeout}"/>
+<acme:display code="cache.hours" property="${cacheForm.hours}"/>
+<acme:display code="cache.minutes" property="${cacheForm.minutes}"/>
+<acme:display code="cache.seconds" property="${cacheForm.seconds}"/>
 
 <acme:link code="cache.edit" href="cache/administrator/edit.do" />

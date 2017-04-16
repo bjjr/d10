@@ -28,6 +28,7 @@
 					<li class="arrow"></li>
 					<li><acme:link href="dashboard/administrator/dashboard.do" code="master.page.dashboard"/></li>
 					<li><acme:link href="banner/list.do" code="master.page.banner.list"/></li>
+					<li><acme:link href="cache/administrator/display.do" code="master.page.cache"/></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -37,6 +38,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><acme:link href="chorbi/edit.do" code="master.page.chorbi.edit" /></li>
+					<li><acme:link href="searchTemplate/chorbi/search.do" code="master.page.chorbi.search" /></li>
 					<li><acme:link href="searchTemplate/chorbi/edit.do" code="master.page.chorbi.editSearchTemplate" /></li>
 					<li><acme:link href="userAccount/edit.do" code="master.page.ua.edit" /></li>
 					<li><acme:link href="chirp/chorbi/listSent.do" code="master.page.chorbi.chirp.listSent" /></li>
