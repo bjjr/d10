@@ -315,10 +315,28 @@
 		    <version>1.7.4</version>
 		</dependency>
 		
+		<!-- Cache -->
+		
 		<dependency>
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache</artifactId>
 		    <version>2.10.3</version>
+		</dependency>
+		
+		<!-- Spring Context Support (necessary for ehcache) -->
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>4.0.0.RELEASE</version>
+		</dependency>
+		
+		<!-- jsoup -->
+		
+		<dependency>
+		  <groupId>org.jsoup</groupId>
+		  <artifactId>jsoup</artifactId>
+		  <version>1.10.2</version>
 		</dependency>
 		
 	</dependencies>

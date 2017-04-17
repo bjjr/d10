@@ -180,7 +180,7 @@ public class ChorbiServiceTest extends AbstractTest {
 			chorbiForm.setPicture("https://testpic.com");
 			chorbiForm.setDescription("testDescription");
 			chorbiForm.setBirthdate(dt.toDate());
-			chorbiForm.setGender("FEMALE");
+			chorbiForm.setGender("MAN");
 			coordinates.setCountry("test");
 			coordinates.setCity("test");
 			chorbiForm.setCoordinates(coordinates);

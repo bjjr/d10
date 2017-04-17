@@ -33,6 +33,7 @@
 		<value>/views/searchTemplate/messages</value>
 		<value>/views/chorbiLike/messages</value>
 		<value>/views/creditCard/messages</value>
+		<value>/views/cache/messages</value>
 	</util:list>
 
 </beans>
