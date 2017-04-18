@@ -2,6 +2,9 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -181,7 +184,122 @@ public class ChirpServiceTest extends AbstractTest {
 
 	}
 
-	// TODO añadir test de métodos de queries
+	@Test
+	public void testfindMinChirpsRecPerChorbi() {
+		this.authenticate("admin");
+
+		Long min;
+
+		min = this.chirpService.findMinChirpsRecPerChorbi();
+		Assert.isTrue(min.equals(0L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindMaxChirpsRecPerChorbi() {
+		this.authenticate("admin");
+
+		Long max;
+
+		max = this.chirpService.findMaxChirpsRecPerChorbi();
+		Assert.isTrue(max.equals(12L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindAvgChirpsRecPerChorbi() {
+		this.authenticate("admin");
+
+		Double avg;
+
+		avg = this.chirpService.findAvgChirpsRecPerChorbi();
+		Assert.isTrue(avg.equals(0.8));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindMinChirpsSendPerChorbi() {
+		this.authenticate("admin");
+
+		Long min;
+
+		min = this.chirpService.findMinChirpsSendPerChorbi();
+		Assert.isTrue(min.equals(0L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindMaxChirpsSendPerChorbi() {
+		this.authenticate("admin");
+
+		Long max;
+
+		max = this.chirpService.findMaxChirpsSendPerChorbi();
+		Assert.isTrue(max.equals(14L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindAvgChirpsSendPerChorbi() {
+		this.authenticate("admin");
+
+		Double avg;
+
+		avg = this.chirpService.findAvgChirpsSendPerChorbi();
+		Assert.isTrue(avg.equals(0.8));
+
+		this.unauthenticate();
+	}
+
+	/*
+	 * USE CASE WITH 10 TESTS
+	 * Use case: An actor who is authenticated as a chorbi must be able to:
+	 * Browse the list of chorbies who have registered to the system and chirp to one of them
+	 * Expected errors:
+	 * - An unauthenticated actor tries to list chorbies and send a chirp --> IllegalArgumentException
+	 * - An administrator tries to send a chirp --> IllegalArgumentException
+	 * - A chorbi tries to send a chirp to himself/herself --> IllegalArgumentException
+	 * - A chorbi tries to send a chirp without subject --> ConstraintViolationException
+	 * - A chorbi tries to send a chirp without text --> ConstraintViolationException
+	 * - A chorbi tries to send a chirp to an administrator --> NullPointerException
+	 * - A chorbi tries to send a chirp to a banned chorbi --> IllegalArgumentException
+	 */
+
+	@Test
+	public void listChirpsReceivedAndReplyDriver() {
+		final Object testingData[][] = {
+			{    // Successful test
+				"chorbi1", 1014, "Subject", "Text", null
+			}, { // Successful test
+				"chorbi2", 1017, "Subject", "Text", null
+			}, { // Successful test
+				"chorbi3", 1013, "Subject", "Text", null
+			}, { // An unauthenticated actor cannot list chorbies and send chirps
+				null, 1013, "Subject", "Text", IllegalArgumentException.class
+			}, { // An administrator cannot send chirps
+				"admin", 1013, "Subject", "Text", IllegalArgumentException.class
+			}, { // A chorbi cannot send a chirp to himself/herself
+				"chorbi1", 1013, "Subject", "Text", IllegalArgumentException.class
+			}, { // A chorbi cannot send a chirp without subject
+				"chorbi1", 1014, "", "Text", ConstraintViolationException.class
+			}, { // A chorbi cannot send a chirp without text
+				"chorbi1", 1014, "Subject", "", ConstraintViolationException.class
+			}, { // A chorbi cannot send a chirp to an administrator
+				"chorbi1", 994, "Subject", "Text", NullPointerException.class
+			}, { // A chorbi cannot send a chirp to a banned chorbi
+				"chorbi1", 1022, "Subject", "Text", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.listChorbiesAndSendChirpTemplate((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+
+	}
 
 	// Templates --------------------------------------------------------------
 
@@ -289,6 +407,39 @@ public class ChirpServiceTest extends AbstractTest {
 			this.chirpService.delete(chirp);
 			this.chirpService.flush();
 			Assert.isTrue(!this.chirpService.findChirpsSent().contains(chirp) && !this.chirpService.findChirpsReceived().contains(chirp));
+
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void listChorbiesAndSendChirpTemplate(final String username, final int recipientId, final String subject, final String text, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			List<Chorbi> chorbies;
+			Chirp created, sent, copy;
+
+			this.authenticate(username);
+
+			chorbies = (List<Chorbi>) this.chorbiService.findNonBannedChorbies();
+			created = this.chirpService.create(recipientId);
+			created.setSubject(subject);
+			created.setText(text);
+
+			sent = this.chirpService.send(created);
+			this.chirpService.flush();
+			copy = this.chirpService.saveCopy(sent);
+			this.chirpService.flush();
+
+			Assert.isTrue(!sent.getCopy());
+			Assert.isTrue(copy.getCopy());
+			Assert.isTrue(chorbies.size() > 0);
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {
