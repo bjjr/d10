@@ -2,6 +2,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -47,4 +48,14 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select c from Chorbi c where c.id != ?1 and 'BANNED' not member of c.userAccount.authorities")
 	Collection<Chorbi> findNonBannedChorbies(int principalChorbiId);
+
+	//--A listing with the number of chorbies per country and city.
+	@Query("select c.coordinates.country,count(c) from Chorbi c group by c.coordinates.country")
+	List<String[]> findNumberOfChorbiesPerCountry();
+
+	@Query("select c.coordinates.city,count(c) from Chorbi c group by c.coordinates.city")
+	List<String[]> findNumberOfChorbiesPerCity();
+
+	@Query("select c.id from Chorbi c")
+	List<Integer> findAllId();
 }

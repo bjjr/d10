@@ -11,8 +11,16 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <h2><spring:message code="administrator.listChorbiesCountry" /></h2>
+<jstl:forEach var="entry" items="${numberOfChorbiesPerCountry}">
+  <spring:message code="administrator.numberOfChorbiesPerCountry.country" /><jstl:out value="${entry[0]}"/>
+  <spring:message code="administrator.numberOfChorbiesPerCountry.quantity" /><jstl:out value="${entry[1]}"/><br/>
+</jstl:forEach>
 
 <h2><spring:message code="administrator.listChorbiesCity" /></h2>
+<jstl:forEach var="entry" items="${numberOfChorbiesPerCity}">
+  <spring:message code="administrator.numberOfChorbiesPerCity.city" /><jstl:out value="${entry[0]}"/>
+  <spring:message code="administrator.numberOfChorbiesPerCountry.quantity" /><jstl:out value="${entry[1]}"/><br/>
+</jstl:forEach>
 
 <h2><spring:message code="administrator.avgAC" /></h2>
 <jstl:out value="${avgAC}"></jstl:out>

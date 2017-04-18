@@ -4,6 +4,7 @@ package services;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
@@ -378,4 +379,29 @@ public class ChorbiService {
 
 		return res;
 	}
+
+	public List<String[]> findNumberOfChorbiesPerCountry() {
+		List<String[]> res;
+
+		res = this.chorbiRepository.findNumberOfChorbiesPerCountry();
+
+		return res;
+	}
+
+	public List<String[]> findNumberOfChorbiesPerCity() {
+		List<String[]> res;
+
+		res = this.chorbiRepository.findNumberOfChorbiesPerCity();
+
+		return res;
+	}
+
+	public List<Integer> findAllId() {
+		List<Integer> res;
+
+		res = this.chorbiRepository.findAllId();
+
+		return res;
+	}
+
 }

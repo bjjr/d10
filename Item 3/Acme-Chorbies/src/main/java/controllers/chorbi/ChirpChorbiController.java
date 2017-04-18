@@ -51,14 +51,15 @@ public class ChirpChorbiController extends AbstractController {
 		Chorbi recipient;
 		String infoRecipient;
 
+		this.isReply = false;
+		this.isResend = false;
+
 		chirp = this.chirpService.create(recipientId);
 		this.setRecipientId(recipientId);
 		recipient = this.chorbiService.findOne(this.getRecipientId());
 		infoRecipient = this.chirpService.getNameRecipient(recipient);
 		result = this.createEditModelAndView(chirp);
 		result.addObject("infoRecipient", infoRecipient);
-		this.isReply = false;
-		this.isResend = false;
 
 		return result;
 	}
@@ -72,14 +73,15 @@ public class ChirpChorbiController extends AbstractController {
 		Chorbi recipient;
 		String infoRecipient;
 
+		this.isReply = true;
+		this.isResend = false;
+
 		chirp = this.chirpService.reply(chirpId);
 		result = this.createEditModelAndView(chirp);
 		this.setRecipientId(chirp.getRecipient().getId());
 		recipient = this.chorbiService.findOne(this.getRecipientId());
 		infoRecipient = this.chirpService.getNameRecipient(recipient);
 		result.addObject("infoRecipient", infoRecipient);
-		this.isReply = true;
-		this.isResend = false;
 
 		return result;
 	}
@@ -93,14 +95,15 @@ public class ChirpChorbiController extends AbstractController {
 		Collection<Chorbi> chorbies;
 		Chorbi principal;
 
+		this.isReply = false;
+		this.isResend = true;
+
 		chorbies = this.chorbiService.findAll();
 		principal = this.chorbiService.findByPrincipal();
 		chorbies.remove(principal);
 		chirp = this.chirpService.resend(chirpId);
 		result = this.createEditModelAndView(chirp);
 		result.addObject("chorbies", chorbies);
-		this.isReply = false;
-		this.isResend = true;
 
 		return result;
 	}

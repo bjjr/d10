@@ -3,6 +3,7 @@ package controllers.administrator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,11 @@ public class DashboardAdministratorController extends AbstractController {
 		final Long minChirpsSendChorbi;
 		final Collection<Chorbi> chorbiesMCR;
 		final Collection<Chorbi> chorbiesMCS;
+		final List<String[]> numberOfChorbiesPerCountry;
+		final List<String[]> numberOfChorbiesPerCity;
 
+		numberOfChorbiesPerCountry = this.chorbiService.findNumberOfChorbiesPerCountry();
+		numberOfChorbiesPerCity = this.chorbiService.findNumberOfChorbiesPerCity();
 		avgAC = this.chorbiService.findAvgAgeChorbies();
 		maxAC = this.chorbiService.findMaxAgeChorbies();
 		minAC = this.chorbiService.findMinAgeChorbies();
@@ -86,6 +91,8 @@ public class DashboardAdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/dashboard");
 		result.addObject("requestURI", "dashboard/administrator/dashboard.do");
+		result.addObject("numberOfChorbiesPerCountry", numberOfChorbiesPerCountry);
+		result.addObject("numberOfChorbiesPerCity", numberOfChorbiesPerCity);
 		result.addObject("avgAC", avgAC);
 		result.addObject("maxAC", maxAC);
 		result.addObject("minAC", minAC);

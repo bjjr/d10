@@ -239,73 +239,10 @@ public class ChirpService {
 		return result;
 	}
 
-	public Long findMinChirpsRecPerChorbi() {
-		Long result;
-		List<Long> cminrec;
 
-		result = 0L;
-		cminrec = (List<Long>) this.chirpRepository.findMinChirpsRecPerChorbi();
 
-		if (!cminrec.isEmpty())
-			result = cminrec.get(0);
 
-		return result;
-	}
 
-	public Long findMaxChirpsRecPerChorbi() {
-		Long result;
-		List<Long> cmaxrec;
-
-		result = 0L;
-		cmaxrec = (List<Long>) this.chirpRepository.findMaxChirpsRecPerChorbi();
-
-		if (!cmaxrec.isEmpty())
-			result = cmaxrec.get(0);
-
-		return result;
-	}
-
-	public Double findAvgChirpsRecPerChorbi() {
-		Double result;
-
-		result = this.chirpRepository.findAvgChirpsRecPerChorbi();
-
-		return result;
-	}
-
-	public Long findMinChirpsSendPerChorbi() {
-		Long result;
-		List<Long> cminsend;
-
-		result = 0L;
-		cminsend = (List<Long>) this.chirpRepository.findMinChirpsSendPerChorbi();
-
-		if (!cminsend.isEmpty())
-			result = cminsend.get(0);
-
-		return result;
-	}
-
-	public Long findMaxChirpsSendPerChorbi() {
-		Long result;
-		List<Long> cmaxsend;
-
-		result = 0L;
-		cmaxsend = (List<Long>) this.chirpRepository.findMaxChirpsSendPerChorbi();
-
-		if (!cmaxsend.isEmpty())
-			result = cmaxsend.get(0);
-
-		return result;
-	}
-
-	public Double findAvgChirpsSendPerChorbi() {
-		Double result;
-
-		result = this.chirpRepository.findAvgChirpsSendPerChorbi();
-
-		return result;
-	}
 
 	public String getNameRecipient(final Chorbi recipient) {
 		String result;
@@ -412,4 +349,85 @@ public class ChirpService {
 			}
 	}
 
+	public Double findAvgChirpsRecPerChorbi() {
+		Double result;
+
+		result = this.chirpRepository.findAvgChirpsRecPerChorbi();
+
+		return result;
+	}
+
+	public Long findMaxChirpsRecPerChorbi() {
+		Long result;
+		List<Long> cmaxrec;
+
+		result = 0L;
+		cmaxrec = (List<Long>) this.chirpRepository.findMaxChirpsRecPerChorbi();
+
+		if (!cmaxrec.isEmpty())
+			result = cmaxrec.get(0);
+
+		return result;
+	}
+
+	public Long findMinChirpsRecPerChorbi() {
+		Long result;
+		List<Integer> allChorbiesId, allChorbiesRecieveId;
+		List<Long> cminrec;
+
+		allChorbiesId = this.chorbiService.findAllId();
+		allChorbiesRecieveId = this.chirpRepository.findAllChorbiesWhoReceiveChirp();
+
+		if (!allChorbiesRecieveId.containsAll(allChorbiesId))
+			return 0L;
+
+		result = 0L;
+		cminrec = (List<Long>) this.chirpRepository.findMinChirpsRecPerChorbi();
+
+		if (!cminrec.isEmpty())
+			result = cminrec.get(0);
+
+		return result;
+	}
+
+	public Double findAvgChirpsSendPerChorbi() {
+		Double result;
+
+		result = this.chirpRepository.findAvgChirpsSendPerChorbi();
+
+		return result;
+	}
+
+	public Long findMaxChirpsSendPerChorbi() {
+		Long result;
+		List<Long> cmaxsend;
+
+		result = 0L;
+		cmaxsend = (List<Long>) this.chirpRepository.findMaxChirpsSendPerChorbi();
+
+		if (!cmaxsend.isEmpty())
+			result = cmaxsend.get(0);
+
+		return result;
+	}
+
+	public Long findMinChirpsSendPerChorbi() {
+		Long result;
+		List<Integer> allChorbiesId, allChorbiesSendersId;
+		List<Long> cminsend;
+
+		allChorbiesId = this.chorbiService.findAllId();
+		allChorbiesSendersId = this.chirpRepository.findAllChorbiesWhoSendChirp();
+
+		if (!allChorbiesSendersId.containsAll(allChorbiesId))
+			return 0L;
+
+		result = 0L;
+		cminsend = (List<Long>) this.chirpRepository.findMinChirpsSendPerChorbi();
+
+		if (!cminsend.isEmpty())
+			result = cminsend.get(0);
+
+		return result;
+	}
 }
