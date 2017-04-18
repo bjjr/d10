@@ -3,6 +3,7 @@ package services;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -135,6 +136,59 @@ public class ChorbiServiceTest extends AbstractTest {
 
 		for (int i = 0; i < testingData.length; i++)
 			this.unbanChorbiTemplate((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	@Test
+	public void testfindChorbiesSortNumLikes() {
+		this.authenticate("admin");
+
+		List<Chorbi> chorbies;
+		Boolean success;
+
+		success = false;
+		chorbies = (List<Chorbi>) this.chorbiService.findChorbiesSortNumLikes();
+		if (chorbies.get(0).getId() == 1016)
+			success = true;
+
+		Assert.isTrue(success);
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindChorbiesMoreChirpsRec() {
+		this.authenticate("admin");
+
+		Collection<Chorbi> chorbies;
+		Boolean success;
+
+		success = false;
+		chorbies = this.chorbiService.findChorbiesMoreChirpsRec();
+		for (final Chorbi chorbi : chorbies)
+			if (chorbi.getId() == 1016)
+				success = true;
+
+		Assert.isTrue(success);
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindChorbiesMoreChirpsSend() {
+		this.authenticate("admin");
+
+		Collection<Chorbi> chorbies;
+		Boolean success;
+
+		success = false;
+		chorbies = this.chorbiService.findChorbiesMoreChirpsSend();
+		for (final Chorbi chorbi : chorbies)
+			if (chorbi.getId() == 1015)
+				success = true;
+
+		Assert.isTrue(success);
+
+		this.unauthenticate();
 	}
 
 	// Templates ------------------------------------
