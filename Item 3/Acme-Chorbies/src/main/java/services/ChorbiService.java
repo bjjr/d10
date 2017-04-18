@@ -328,7 +328,7 @@ public class ChorbiService {
 	public Collection<Chorbi> findChorbiesMoreChirpsRec() {
 		Collection<Chorbi> result;
 
-		result = this.chorbiRepository.findChorbiesMoreChirpsSend();
+		result = this.chorbiRepository.findChorbiesMoreChirpsRec();
 
 		return result;
 	}
