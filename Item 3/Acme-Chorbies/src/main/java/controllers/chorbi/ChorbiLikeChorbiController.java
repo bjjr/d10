@@ -60,7 +60,7 @@ public class ChorbiLikeChorbiController extends AbstractController {
 		} else
 			try {
 				this.chorbiLikeService.save(chorbiLike);
-				result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
+				result = new ModelAndView("redirect:/chorbi/list.do");
 				result.addObject("messageStatus", "chorbiLike.commit.ok");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("chorbiLike/create");
@@ -82,10 +82,10 @@ public class ChorbiLikeChorbiController extends AbstractController {
 
 		try {
 			this.chorbiLikeService.cancelChorbiLike(chorbi);
-			result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
+			result = new ModelAndView("redirect:/chorbi/list.do");
 			result.addObject("messageStatus", "chorbiLike.commit.ok");
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:http://localhost:8080/Acme-Chorbies/chorbi/list.do");
+			result = new ModelAndView("redirect:/chorbi/list.do");
 			result.addObject("messageStatus", "chorbiLike.commit.error");
 		}
 
