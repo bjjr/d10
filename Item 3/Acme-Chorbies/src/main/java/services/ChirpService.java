@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ChirpRepository;
+import security.Authority;
 import domain.Chirp;
 import domain.Chorbi;
 
@@ -62,12 +63,16 @@ public class ChirpService {
 		final Chorbi sender;
 		final Chorbi recipient;
 		Collection<String> attachments;
+		Authority authority;
 
+		authority = new Authority();
+		authority.setAuthority(Authority.CHORBI);
 		result = new Chirp();
 		attachments = new ArrayList<String>();
 		sender = this.chorbiService.findByPrincipal();
 		recipient = this.chorbiService.findOne(recipientId);
 		Assert.isTrue(!sender.equals(recipient), "Cannot send a chirp to you");
+		Assert.isTrue(recipient.getUserAccount().getAuthorities().contains(authority), "You only can send chirps to chorbies");
 		moment = new Date(System.currentTimeMillis() - 1000);
 		result.setAttachments(attachments);
 		result.setCopy(false);
@@ -234,6 +239,11 @@ public class ChirpService {
 		return result;
 	}
 
+
+
+
+
+
 	public String getNameRecipient(final Chorbi recipient) {
 		String result;
 
@@ -241,8 +251,6 @@ public class ChirpService {
 
 		return result;
 	}
-
-	// TODO añadir métodos de queries
 
 	public Chirp reconstruct(final Chirp chirp, final BindingResult bindingResult, final int recipientId) {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));

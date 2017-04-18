@@ -94,6 +94,42 @@ public class ChorbiLikeServiceTest extends AbstractTest {
 			this.cancelChorbiLikeTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
+	@Test
+	public void testfindMinLikesPerChorbi() {
+		this.authenticate("admin");
+
+		Long min;
+
+		min = this.chorbiLikeService.findMinLikesPerChorbi();
+		Assert.isTrue(min.equals(0L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindMaxLikesPerChorbi() {
+		this.authenticate("admin");
+
+		Long max;
+
+		max = this.chorbiLikeService.findMaxLikesPerChorbi();
+		Assert.isTrue(max.equals(7L));
+
+		this.unauthenticate();
+	}
+
+	@Test
+	public void testfindAvgLikesPerChorbi() {
+		this.authenticate("admin");
+
+		Double avg;
+
+		avg = this.chorbiLikeService.findAvgLikesPerChorbi();
+		Assert.isTrue(avg.equals(1.2));
+
+		this.unauthenticate();
+	}
+
 	// Ancillary methods ------------------------------------------------------
 
 	protected void createChorbiLikeTemplate(final String username, final int chorbiId, final Class<?> expected) {

@@ -145,11 +145,7 @@ public class ChorbiLikeService {
 		principal = this.chorbiService.findByPrincipal();
 		chorbiLike = null;
 
-		for (final ChorbiLike c : this.findChorbiLikesByLiker(principal.getId())) {
-			if (c.getLiked().equals(chorbi))
-				chorbiLike = c;
-			break;
-		}
+		chorbiLike = this.chorbiLikeRepository.findLike(principal.getId(), chorbi.getId());
 
 		this.delete(chorbiLike);
 	}

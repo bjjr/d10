@@ -31,4 +31,6 @@ public interface ChorbiLikeRepository extends JpaRepository<ChorbiLike, Integer>
 	@Query("select cl.liker.id from ChorbiLike cl group by cl.liker.id")
 	List<Integer> findAllChorbiesWhoLike();
 
+	@Query("select l from ChorbiLike l where l.liker.id = ?1 and l.liked.id = ?2")
+	ChorbiLike findLike(int likerId, int likedId);
 }
