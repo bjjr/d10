@@ -1,27 +1,32 @@
 
 package domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
-public class Coordinates {
+public class Coordinates implements Serializable {
 
 	//Attributes
 
-	private String	country;
-	private String	state;
-	private String	province;
-	private String	city;
+	private static final long	serialVersionUID	= 2123307814182343092L;
+	private String				country;
+	private String				state;
+	private String				province;
+	private String				city;
 
 
 	@NotBlank
 	@NotNull
+	@SafeHtml
 	public String getCountry() {
 		return this.country;
 	}
@@ -30,6 +35,7 @@ public class Coordinates {
 		this.country = country;
 	}
 
+	@SafeHtml
 	public String getState() {
 		return this.state;
 	}
@@ -38,6 +44,7 @@ public class Coordinates {
 		this.state = state;
 	}
 
+	@SafeHtml
 	public String getProvince() {
 		return this.province;
 	}
@@ -48,6 +55,7 @@ public class Coordinates {
 
 	@NotBlank
 	@NotNull
+	@SafeHtml
 	public String getCity() {
 		return this.city;
 	}

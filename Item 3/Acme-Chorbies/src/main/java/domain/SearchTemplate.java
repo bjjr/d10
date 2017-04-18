@@ -1,16 +1,24 @@
 
 package domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class SearchTemplate extends DomainEntity {
+@Table(indexes = {
+	@Index(columnList = "relationship")
+})
+public class SearchTemplate extends DomainEntity implements Serializable {
 
 	// Attributes 
 
+	private static final long	serialVersionUID	= 9104266230847358385L;
 	private Integer				age;
 	private String				gender;
 	private CoordinatesTemplate	coordinatesTemplate;

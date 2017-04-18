@@ -68,7 +68,7 @@
 	<acme:column code="coordinates.city" property="${row.coordinates.city}"/>
 	
 	<display:column>
-		<a href="chorbi/display.do?chorbiId=${row.id}"><spring:message code="chorbi.profile"/></a>
+		<acme:link href="chorbi/display.do?chorbiId=${row.id}" code="chorbi.profile"/>
 	</display:column>
 	
 	<spring:message code="chorbi.like" var="cLike"/>
@@ -77,6 +77,20 @@
 	<security:authorize access="hasRole('CHORBI')">
 		<display:column>
 			<!-- COLUMN WITH LINKS TO LIKE OR DISLIKE -->
+			<jstl:choose>
+				<jstl:when test="${liked.contains(row)}">
+					<acme:link href="chorbiLike/chorbi/cancel.do?chorbiId=${row.id}" code="chorbiLike.cancel.like"/>
+			    </jstl:when>
+			
+			    <jstl:otherwise>
+					<acme:link href="chorbiLike/chorbi/create.do?chorbiId=${row.id}" code="chorbiLike.create"/>
+			   </jstl:otherwise>
+			
+			</jstl:choose>
+		</display:column>
+		
+		<display:column>
+			<acme:link href="chirp/chorbi/create.do?recipientId=${row.id}" code="chirp.create"/>
 		</display:column>
 	</security:authorize>
 
@@ -86,6 +100,16 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
 			<!-- COLUMN WITH LINKS TO BAN OR UNBAN -->
+			
+			<jstl:choose>
+				<jstl:when test="${row.userAccount.authorities.contains(bannedAuth)}">
+					<acme:link href="chorbi/administrator/unban.do?chorbiId=${row.id}" code="chorbi.unban"/>
+				</jstl:when>
+				
+				<jstl:otherwise>
+					<acme:link href="chorbi/administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban"/>
+				</jstl:otherwise>
+			</jstl:choose>
 		</display:column>
 	</security:authorize>
 	

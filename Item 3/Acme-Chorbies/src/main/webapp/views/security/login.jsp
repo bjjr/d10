@@ -38,6 +38,12 @@
 		</div>
 	</jstl:if>
 	
+	<jstl:if test="${banned == true}">
+		<div class="error">
+			<spring:message code="security.chorbi.banned" />
+		</div>
+	</jstl:if>
+	
 	<input type="submit" value="<spring:message code="security.login" />" />
 	
 </form:form>

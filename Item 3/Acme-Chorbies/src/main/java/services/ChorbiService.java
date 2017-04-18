@@ -3,6 +3,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ChorbiRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
@@ -65,17 +67,13 @@ public class ChorbiService {
 	}
 
 	public Chorbi save(final Chorbi chorbi) {
-		Chorbi res, authChorbi;
+		Chorbi res;
 		SearchTemplate savedSt;
 		String initialPasswd, encodedPasswd;
 
-		// If Chorbi already exists we don't need to re-hash the password and add the search template
-		if (chorbi.getId() != 0) {
-			authChorbi = this.findByPrincipal();
-			Assert.notNull(authChorbi);
-		} else {
+		if (chorbi.getId() == 0) {
 			initialPasswd = chorbi.getUserAccount().getPassword();
-			encodedPasswd = this.hashCodePassword(initialPasswd);
+			encodedPasswd = this.hashPassword(initialPasswd);
 
 			chorbi.getUserAccount().setPassword(encodedPasswd);
 
@@ -144,7 +142,7 @@ public class ChorbiService {
 		return res;
 	}
 
-	private String hashCodePassword(final String password) {
+	public String hashPassword(final String password) {
 		String res;
 		Md5PasswordEncoder encoder;
 
@@ -163,10 +161,27 @@ public class ChorbiService {
 		Assert.isTrue(this.actorService.checkAuthority("CHORBI"));
 		final Chorbi res;
 		Chorbi principal;
+		String relationship;
+
+		/*
+		 * Avoid form modification
+		 */
+
+		relationship = chorbi.getRelationship();
+		Assert.isTrue(relationship.equals("LOVE") || relationship.equals("ACTIVITIES") || relationship.equals("FRIENDSHIP") || relationship.equals(""), "Invalid value detected");
 
 		res = chorbi;
 		principal = this.findByPrincipal();
 
+		// Retrieve principal's attributes
+
+		res.setId(principal.getId());
+		res.setVersion(principal.getVersion());
+		res.setName(principal.getName());
+		res.setSurname(principal.getSurname());
+		res.setBirthdate(principal.getBirthdate());
+		res.setGender(principal.getGender());
+		res.setCoordinates(principal.getCoordinates());
 		res.setCreditCard(principal.getCreditCard());
 		res.setSearchTemplate(principal.getSearchTemplate());
 		res.setUserAccount(principal.getUserAccount());
@@ -177,19 +192,27 @@ public class ChorbiService {
 	}
 
 	/*
-	 * Reconstruct for object form. Used in chorbi register.
-	 * The new chorbi is given a non configured search template.
+	 * Reconstruct method. Used in registration forms.
 	 */
 
 	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) {
-		Assert.isTrue(!(this.actorService.checkAuthority("CHORBI") || this.actorService.checkAuthority("ADMIN")));
-
 		Chorbi res;
+		String gender, relationship;
+
+		/*
+		 * Avoid form modification
+		 */
+
+		gender = chorbiForm.getGender();
+		relationship = chorbiForm.getRelationship();
+
+		Assert.isTrue(gender.equals("MAN") || gender.equals("WOMAN") || gender.equals(""), "Invalid value detected");
+		Assert.isTrue(relationship.equals("LOVE") || relationship.equals("ACTIVITIES") || relationship.equals("FRIENDSHIP") || relationship.equals(""), "Invalid value detected");
 
 		res = chorbiForm.getChorbi();
 
 		this.checkAge(res.getBirthdate(), binding);
-		this.checkPasswords(chorbiForm.getPassword(), chorbiForm.getPasswdConfirmation(), binding);
+		this.checkPasswords(chorbiForm.getUserAccount().getPassword(), chorbiForm.getPasswdConfirmation(), binding);
 
 		this.validator.validate(res, binding);
 
@@ -200,18 +223,22 @@ public class ChorbiService {
 		DateTime now, birth;
 		Integer years;
 
-		birth = new DateTime(birthdate.getTime());
-		now = new DateTime();
+		if (birthdate == null)
+			binding.rejectValue("birthdate", "javax.validation.constraints.NotNull.message");
+		else {
+			birth = new DateTime(birthdate.getTime());
+			now = new DateTime();
 
-		years = Years.yearsBetween(birth, now).getYears();
+			years = Years.yearsBetween(birth, now).getYears();
 
-		if (years < 18)
-			binding.rejectValue("birthdate", "chorbi.birthdate.invalid");
+			if (years < 18)
+				binding.rejectValue("birthdate", "chorbi.birthdate.invalid");
+		}
 	}
 
 	private void checkPasswords(final String passwd1, final String passwd2, final BindingResult binding) {
-		if (!passwd1.equals(passwd2))
-			binding.rejectValue("password", "chorbi.password.invalid");
+		if (!passwd1.equals(passwd2) || (passwd1 == null || passwd2 == null))
+			binding.rejectValue("userAccount.password", "chorbi.password.invalid");
 	}
 
 	/**
@@ -230,6 +257,124 @@ public class ChorbiService {
 
 		res = text.replaceAll(phoneRegex, "*** ");
 		res = res.replaceAll(emailRegex, "***");
+
+		return res;
+	}
+
+	public Double findAvgAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findAvgAgeChorbies();
+
+		return result;
+	}
+
+	public Double findMaxAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findMaxAgeChorbies();
+
+		return result;
+	}
+
+	public Double findMinAgeChorbies() {
+		Double result;
+
+		result = this.chorbiRepository.findMinAgeChorbies();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesNoCCInvCC() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesNoCCInvCC();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchAct() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchAct();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchFriend() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchFriend();
+
+		return result;
+	}
+
+	public Double findRatioChorbiesSearchLove() {
+		Double result;
+
+		result = this.chorbiRepository.findRatioChorbiesSearchLove();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesSortNumLikes() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesSortNumLikes();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesMoreChirpsRec() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesMoreChirpsSend();
+
+		return result;
+	}
+
+	public Collection<Chorbi> findChorbiesMoreChirpsSend() {
+		Collection<Chorbi> result;
+
+		result = this.chorbiRepository.findChorbiesMoreChirpsSend();
+
+		return result;
+	}
+
+	public void ban(final Chorbi chorbi) {
+		Assert.isTrue(this.actorService.checkAuthority("ADMIN"));
+
+		Collection<Authority> authorities;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("BANNED");
+		authorities = new HashSet<>();
+		authorities.add(authority);
+
+		chorbi.getUserAccount().setAuthorities(authorities);
+		this.save(chorbi);
+	}
+
+	public void unban(final Chorbi chorbi) {
+		Assert.isTrue(this.actorService.checkAuthority("ADMIN"));
+
+		Collection<Authority> authorities;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority("CHORBI");
+		authorities = new HashSet<>();
+		authorities.add(authority);
+
+		chorbi.getUserAccount().setAuthorities(authorities);
+		this.save(chorbi);
+	}
+
+	public Collection<Chorbi> findNonBannedChorbies() {
+		Collection<Chorbi> res;
+
+		res = this.chorbiRepository.findNonBannedChorbies(this.findByPrincipal().getId());
 
 		return res;
 	}

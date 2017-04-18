@@ -1,35 +1,45 @@
 
 package domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Chorbi extends Actor {
+@Table(uniqueConstraints = {
+	@UniqueConstraint(columnNames = {
+		"description", "gender", "city", "country", "province", "state"
+	})
+})
+public class Chorbi extends Actor implements Serializable {
 
 	//Attributes
 
-	private String		picture;
-	private String		description;
-	private Date		birthdate;
-	private String		gender;
-	private Coordinates	coordinates;
-	private boolean		banned;
-	private String		relationship;
+	private static final long	serialVersionUID	= -9116541658355470130L;
+	private String				picture;
+	private String				description;
+	private Date				birthdate;
+	private String				gender;
+	private Coordinates			coordinates;
+	private String				relationship;
 
 
 	@NotBlank
@@ -45,6 +55,8 @@ public class Chorbi extends Actor {
 
 	@NotBlank
 	@NotNull
+	@Size(min = 1, max = 1500)
+	@SafeHtml
 	public String getDescription() {
 		return this.description;
 	}
@@ -83,14 +95,6 @@ public class Chorbi extends Actor {
 
 	public void setCoordinates(final Coordinates coordinates) {
 		this.coordinates = coordinates;
-	}
-
-	public boolean isBanned() {
-		return this.banned;
-	}
-
-	public void setBanned(final boolean banned) {
-		this.banned = banned;
 	}
 
 	@NotNull

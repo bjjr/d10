@@ -1,35 +1,36 @@
 
 package domain;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class CreditCard extends DomainEntity {
+public class CreditCard extends DomainEntity implements Serializable {
 
 	// Attributes 
 
-	private String	holder;
-	private String	brand;
-	private String	number;
-	private Date	expirationDate;
-	private int		cvv;
+	private static final long	serialVersionUID	= -5419734414589046716L;
+	private String				holder;
+	private String				brand;
+	private String				number;
+	private int					year;
+	private int					month;
+	private int					cvv;
 
 
 	@NotBlank
 	@NotNull
+	@SafeHtml
 	public String getHolder() {
 		return this.holder;
 	}
@@ -59,15 +60,22 @@ public class CreditCard extends DomainEntity {
 		this.number = number;
 	}
 
-	@NotNull
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	public Date getExpirationDate() {
-		return this.expirationDate;
+	@Range(min = 0)
+	public int getYear() {
+		return this.year;
 	}
 
-	public void setExpirationDate(final Date expirationDate) {
-		this.expirationDate = expirationDate;
+	public void setYear(final int year) {
+		this.year = year;
+	}
+
+	@Range(min = 1, max = 12)
+	public int getMonth() {
+		return this.month;
+	}
+
+	public void setMonth(final int month) {
+		this.month = month;
 	}
 
 	@Range(min = 100, max = 999)
