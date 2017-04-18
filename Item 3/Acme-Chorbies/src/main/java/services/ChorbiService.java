@@ -396,4 +396,12 @@ public class ChorbiService {
 		return res;
 	}
 
+	public List<Integer> findAllId() {
+		List<Integer> res;
+
+		res = this.chorbiRepository.findAllId();
+
+		return res;
+	}
+
 }

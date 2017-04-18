@@ -364,7 +364,14 @@ public class ChirpService {
 
 	public Long findMinChirpsRecPerChorbi() {
 		Long result;
+		List<Integer> allChorbiesId, allChorbiesRecieveId;
 		List<Long> cminrec;
+
+		allChorbiesId = this.chorbiService.findAllId();
+		allChorbiesRecieveId = this.chirpRepository.findAllChorbiesWhoReceiveChirp();
+
+		if (!allChorbiesRecieveId.containsAll(allChorbiesId))
+			return 0L;
 
 		result = 0L;
 		cminrec = (List<Long>) this.chirpRepository.findMinChirpsRecPerChorbi();
@@ -398,7 +405,14 @@ public class ChirpService {
 
 	public Long findMinChirpsSendPerChorbi() {
 		Long result;
+		List<Integer> allChorbiesId, allChorbiesSendersId;
 		List<Long> cminsend;
+
+		allChorbiesId = this.chorbiService.findAllId();
+		allChorbiesSendersId = this.chirpRepository.findAllChorbiesWhoSendChirp();
+
+		if (!allChorbiesSendersId.containsAll(allChorbiesId))
+			return 0L;
 
 		result = 0L;
 		cminsend = (List<Long>) this.chirpRepository.findMinChirpsSendPerChorbi();
@@ -408,5 +422,4 @@ public class ChirpService {
 
 		return result;
 	}
-
 }

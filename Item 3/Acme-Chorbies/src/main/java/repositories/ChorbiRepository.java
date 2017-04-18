@@ -55,4 +55,7 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select c.coordinates.city,count(c) from Chorbi c group by c.coordinates.city")
 	List<String[]> findNumberOfChorbiesPerCity();
+
+	@Query("select c.id from Chorbi c")
+	List<Integer> findAllId();
 }

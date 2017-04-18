@@ -192,6 +192,13 @@ public class ChorbiLikeService {
 	public Long findMinLikesPerChorbi() {
 		Long result;
 		List<Long> minLikes;
+		List<Integer> allChorbiesId, allChorbiesRecieveId;
+
+		allChorbiesId = this.chorbiService.findAllId();
+		allChorbiesRecieveId = this.chorbiLikeRepository.findAllChorbiesWhoLike();
+
+		if (!allChorbiesRecieveId.containsAll(allChorbiesId))
+			return 0L;
 
 		result = 0L;
 		minLikes = (List<Long>) this.chorbiLikeRepository.findMinLikesPerChorbi();
