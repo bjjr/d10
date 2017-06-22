@@ -205,4 +205,12 @@ public class ChorbiLikeService {
 		return result;
 	}
 
+	public Collection<Chorbi> findChorbiesWhoLikedThis(final int chorbiId) {
+		Collection<Chorbi> res;
+
+		res = this.chorbiLikeRepository.findChorbiesWhoLikedThis(chorbiId);
+
+		return res;
+	}
+
 }

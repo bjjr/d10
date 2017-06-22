@@ -1,6 +1,10 @@
 
 package controllers.chorbi;
 
+import java.util.Collection;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,7 +55,7 @@ public class ChorbiLikeChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final ChorbiLike chorbiLike, final BindingResult binding) {
+	public ModelAndView save(@Valid final ChorbiLike chorbiLike, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
@@ -69,6 +73,24 @@ public class ChorbiLikeChorbiController extends AbstractController {
 			}
 
 		return result;
+	}
+
+	// List -----------------------------------------------------------------
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView res;
+		Collection<Chorbi> chorbiesWhoLikedPrincipal;
+		Chorbi principal;
+
+		res = new ModelAndView("chorbiLike/list");
+		principal = this.chorbiService.findByPrincipal();
+		chorbiesWhoLikedPrincipal = this.chorbiLikeService.findChorbiesWhoLikedThis(principal.getId());
+
+		res.addObject("chorbies", chorbiesWhoLikedPrincipal);
+		res.addObject("requestURI", "chorbiLike/chorbi/list.do");
+
+		return res;
 	}
 
 	// Cancelling -----------------------------------------------------------

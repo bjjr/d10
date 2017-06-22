@@ -38,6 +38,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><acme:link href="chorbi/edit.do" code="master.page.chorbi.edit" /></li>
+					<li><acme:link href="chorbiLike/chorbi/list.do" code="master.page.chorbiLike.list" /></li>
 					<li><a href="creditCard/chorbi/display.do"><spring:message code="master.page.chorbi.editCreditCard" /></a></li>
 					<li><acme:link href="searchTemplate/chorbi/search.do" code="master.page.chorbi.search" /></li>
 					<li><acme:link href="searchTemplate/chorbi/edit.do" code="master.page.chorbi.editSearchTemplate" /></li>

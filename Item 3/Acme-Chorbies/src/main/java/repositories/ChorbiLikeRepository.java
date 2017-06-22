@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Chorbi;
 import domain.ChorbiLike;
 
 @Repository
@@ -33,4 +34,7 @@ public interface ChorbiLikeRepository extends JpaRepository<ChorbiLike, Integer>
 
 	@Query("select l from ChorbiLike l where l.liker.id = ?1 and l.liked.id = ?2")
 	ChorbiLike findLike(int likerId, int likedId);
+
+	@Query("select l.liker from ChorbiLike l where l.liked.id = ?1")
+	Collection<Chorbi> findChorbiesWhoLikedThis(int chorbiId);
 }

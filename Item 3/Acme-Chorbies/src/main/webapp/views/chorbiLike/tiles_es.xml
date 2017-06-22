@@ -11,5 +11,10 @@
 		<put-attribute name="title" value="Dar me gusta" />
 		<put-attribute name="body" value="/views/chorbiLike/create.jsp" />
 	</definition>
+	
+	<definition name="chorbiLike/list" extends="master.page">	
+		<put-attribute name="title" value="Gente a la que le gustas" />
+		<put-attribute name="body" value="/views/chorbiLike/list.jsp" />
+	</definition>
 
 </tiles-definitions>
